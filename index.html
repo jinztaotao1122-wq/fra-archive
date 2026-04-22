@@ -1,0 +1,1434 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FRA — Class Photo Archive</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --brand:#1a4a8a;
+  --brand-dark:#112f5c;
+  --brand-deeper:#0a1e3d;
+  --brand-mid:#2260ab;
+  --brand-light:#2d78d6;
+  --brand-pale:#dbeafe;
+  --brand-xpale:#eff6ff;
+  --accent:#f59e0b;
+  --accent-light:#fef3c7;
+  --bg:#eef3fb;
+  --surface:#ffffff;
+  --surface2:#f5f8ff;
+  --border:#ccd9f0;
+  --border2:#a8c0e0;
+  --ink:#0d1e35;
+  --ink2:#2a4268;
+  --ink3:#5a7aaa;
+  --ink4:#8faacb;
+  --danger:#dc2626;
+  --success:#16a34a;
+  --warn:#d97706;
+  --font-d:'Syne',sans-serif;
+  --font-b:'Inter',sans-serif;
+  --font-m:'JetBrains Mono',monospace;
+  --r:8px;--r2:12px;--r3:18px;
+  --sh:0 1px 4px rgba(26,74,138,0.08),0 4px 20px rgba(26,74,138,0.07);
+  --sh2:0 8px 40px rgba(26,74,138,0.18);
+  --t:0.18s ease;
+}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--ink);font-family:var(--font-b);font-size:14px;line-height:1.55;min-height:100vh}
+button,input,select,textarea{font-family:var(--font-b)}
+.hidden{display:none!important}
+.flex{display:flex;align-items:center}
+
+/* ════════ LOGIN ════════ */
+#login-screen{
+  position:fixed;inset:0;
+  background:linear-gradient(140deg,var(--brand-deeper) 0%,var(--brand) 60%,var(--brand-mid) 100%);
+  display:flex;align-items:center;justify-content:center;z-index:1000;
+  transition:opacity 0.4s;
+}
+#login-screen.out{opacity:0;pointer-events:none}
+.login-wrap{width:100%;max-width:400px;padding:20px}
+.login-logo-row{display:flex;align-items:center;justify-content:center;gap:14px;margin-bottom:32px}
+.login-logo-box{
+  width:56px;height:56px;background:var(--accent);border-radius:12px;
+  display:flex;align-items:center;justify-content:center;
+  box-shadow:0 6px 20px rgba(245,158,11,0.45);flex-shrink:0;
+}
+.login-logo-box span{font-family:var(--font-d);font-size:22px;font-weight:800;color:#fff}
+.login-logo-text .t1{font-family:var(--font-d);font-size:22px;font-weight:800;color:#fff;letter-spacing:1px}
+.login-logo-text .t2{font-family:var(--font-m);font-size:10px;color:rgba(255,255,255,0.45);letter-spacing:2px;margin-top:1px}
+.login-card{background:var(--surface);border-radius:var(--r3);padding:32px;box-shadow:var(--sh2)}
+.login-card-title{font-family:var(--font-d);font-size:20px;font-weight:700;color:var(--ink);margin-bottom:4px}
+.login-card-sub{font-size:13px;color:var(--ink3);margin-bottom:24px}
+.lbl{font-family:var(--font-m);font-size:10px;letter-spacing:1.5px;color:var(--ink2);display:block;margin-bottom:7px;font-weight:500}
+.inp{
+  width:100%;padding:11px 14px;border:1.5px solid var(--border);border-radius:var(--r);
+  background:var(--surface2);color:var(--ink);font-size:14px;outline:none;
+  transition:border-color var(--t),box-shadow var(--t);
+}
+.inp:focus{border-color:var(--brand);box-shadow:0 0 0 3px rgba(26,74,138,0.12)}
+.inp::placeholder{color:var(--ink4)}
+.lf{margin-bottom:16px}
+.login-btn{
+  width:100%;padding:13px;background:var(--brand);color:#fff;border:none;
+  border-radius:var(--r);font-family:var(--font-d);font-size:15px;font-weight:700;
+  letter-spacing:0.5px;cursor:pointer;transition:all var(--t);margin-top:4px;
+}
+.login-btn:hover{background:var(--brand-mid);transform:translateY(-1px);box-shadow:0 5px 18px rgba(26,74,138,0.35)}
+.login-err{font-size:12px;color:var(--danger);margin-top:12px;padding:9px 12px;background:#fef2f2;border-radius:6px;border:1px solid #fecaca;display:none}
+.login-hint{font-family:var(--font-m);font-size:10px;color:var(--ink4);text-align:center;margin-top:16px;letter-spacing:0.5px}
+
+/* ════════ APP ════════ */
+#app{display:none;flex-direction:column;min-height:100vh}
+#app.show{display:flex}
+
+/* ── TOPNAV ── */
+.topnav{
+  position:sticky;top:0;z-index:100;height:60px;
+  background:var(--brand-deeper);
+  border-bottom:1px solid rgba(255,255,255,0.08);
+  display:flex;align-items:center;padding:0 24px;gap:16px;
+}
+.nav-logo{display:flex;align-items:center;gap:10px;cursor:pointer;flex-shrink:0}
+.nav-logo-box{width:34px;height:34px;background:var(--accent);border-radius:8px;display:flex;align-items:center;justify-content:center}
+.nav-logo-box span{font-family:var(--font-d);font-size:14px;font-weight:800;color:#fff}
+.nav-brand{font-family:var(--font-d);font-size:16px;font-weight:700;color:#fff;letter-spacing:0.5px}
+.nav-divider{width:1px;height:28px;background:rgba(255,255,255,0.12);flex-shrink:0}
+.nav-tabs{display:flex;align-items:center;gap:2px;flex:1}
+.nav-tab{
+  padding:6px 16px;border-radius:6px;font-size:13px;font-weight:500;
+  color:rgba(255,255,255,0.5);cursor:pointer;border:none;background:transparent;
+  transition:all var(--t);white-space:nowrap;
+}
+.nav-tab:hover{color:rgba(255,255,255,0.85);background:rgba(255,255,255,0.07)}
+.nav-tab.active{color:#fff;background:rgba(255,255,255,0.13)}
+.nav-right{margin-left:auto;display:flex;align-items:center;gap:12px;flex-shrink:0}
+.nav-user{font-family:var(--font-m);font-size:10px;color:rgba(255,255,255,0.4);letter-spacing:1px}
+.nav-logout{
+  padding:5px 14px;border:1px solid rgba(255,255,255,0.2);border-radius:20px;
+  font-size:12px;color:rgba(255,255,255,0.55);cursor:pointer;background:transparent;
+  transition:all var(--t);
+}
+.nav-logout:hover{border-color:rgba(255,255,255,0.5);color:#fff}
+
+/* ── PAGES ── */
+.page{display:none;flex:1}
+.page.active{display:block;animation:fadeUp .25s ease}
+@keyframes fadeUp{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+
+/* ════════ BROWSE PAGE ════════ */
+.browse-hero{
+  background:linear-gradient(120deg,var(--brand-deeper) 0%,var(--brand) 100%);
+  padding:44px 32px 36px;position:relative;overflow:hidden;
+}
+.browse-hero::before{
+  content:'';position:absolute;top:-60px;right:-60px;
+  width:300px;height:300px;border-radius:50%;
+  background:rgba(255,255,255,0.04);
+}
+.browse-hero::after{
+  content:'FRA';position:absolute;right:24px;bottom:-16px;
+  font-family:var(--font-d);font-size:120px;font-weight:800;
+  color:rgba(255,255,255,0.05);letter-spacing:-4px;pointer-events:none;
+}
+.hero-eyebrow{font-family:var(--font-m);font-size:10px;letter-spacing:3px;color:rgba(255,255,255,0.4);margin-bottom:10px}
+.hero-title{font-family:var(--font-d);font-size:clamp(28px,4vw,46px);font-weight:800;color:#fff;line-height:1.05;margin-bottom:6px}
+.hero-title em{font-style:normal;color:var(--accent)}
+.hero-sub{font-size:13px;color:rgba(255,255,255,0.45)}
+
+/* YEAR/MONTH PICKERS */
+.pick-bar{
+  background:var(--surface);border-bottom:1px solid var(--border);
+  padding:14px 32px;display:flex;align-items:center;gap:10px;flex-wrap:wrap;
+}
+.pick-label{font-family:var(--font-m);font-size:10px;letter-spacing:1.5px;color:var(--ink3);white-space:nowrap}
+.pick-chips{display:flex;flex-wrap:wrap;gap:6px}
+.chip{
+  padding:5px 14px;border-radius:20px;font-size:12px;font-weight:500;
+  border:1.5px solid var(--border);background:transparent;color:var(--ink2);
+  cursor:pointer;transition:all var(--t);white-space:nowrap;
+}
+.chip:hover{border-color:var(--brand);color:var(--brand)}
+.chip.active{background:var(--brand);border-color:var(--brand);color:#fff}
+.pick-sep{width:1px;height:24px;background:var(--border);flex-shrink:0}
+
+/* FILTER BAR */
+.filter-bar{
+  background:var(--surface2);border-bottom:1px solid var(--border);
+  padding:12px 32px;display:flex;align-items:center;gap:10px;flex-wrap:wrap;
+}
+.fsel{
+  padding:7px 12px;border:1.5px solid var(--border);border-radius:20px;
+  background:var(--surface);color:var(--ink);font-size:13px;outline:none;
+  cursor:pointer;transition:border-color var(--t);
+}
+.fsel:focus{border-color:var(--brand)}
+.filter-clear{
+  padding:6px 14px;border:1.5px solid var(--border2);border-radius:20px;
+  background:transparent;color:var(--ink3);font-size:12px;cursor:pointer;
+  transition:all var(--t);margin-left:auto;
+}
+.filter-clear:hover{border-color:var(--danger);color:var(--danger)}
+
+/* GALLERY */
+.gallery-wrap{padding:24px 32px 60px}
+.gallery-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:18px;flex-wrap:wrap;gap:10px}
+.gallery-count{font-family:var(--font-m);font-size:11px;color:var(--ink3);letter-spacing:1px}
+.gallery-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:18px}
+
+.photo-card{
+  background:var(--surface);border-radius:var(--r2);overflow:hidden;
+  box-shadow:var(--sh);transition:all var(--t);cursor:pointer;
+  border:1px solid var(--border);
+}
+.photo-card:hover{transform:translateY(-3px);box-shadow:var(--sh2);border-color:var(--brand-pale)}
+.photo-card-img-wrap{position:relative;overflow:hidden}
+.photo-card-img{width:100%;aspect-ratio:4/3;object-fit:cover;display:block;transition:transform 0.4s ease}
+.photo-card:hover .photo-card-img{transform:scale(1.04)}
+.photo-card-placeholder{width:100%;aspect-ratio:4/3;background:linear-gradient(135deg,var(--brand-xpale),var(--brand-pale));display:flex;align-items:center;justify-content:center;color:var(--brand-pale)}
+.photo-card-type-badge{
+  position:absolute;top:10px;left:10px;
+  background:var(--brand);color:#fff;font-family:var(--font-m);
+  font-size:9px;letter-spacing:1px;padding:3px 8px;border-radius:4px;font-weight:500;
+}
+.photo-card-edit-btn{
+  position:absolute;top:10px;right:10px;
+  background:rgba(255,255,255,0.92);color:var(--brand);border:none;
+  width:30px;height:30px;border-radius:6px;display:flex;align-items:center;justify-content:center;
+  cursor:pointer;opacity:0;transition:opacity var(--t);box-shadow:var(--sh);
+}
+.photo-card:hover .photo-card-edit-btn{opacity:1}
+.photo-card-body{padding:14px 16px 16px}
+.photo-card-tags{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:10px}
+.tag{font-family:var(--font-m);font-size:10px;letter-spacing:0.5px;padding:3px 8px;border-radius:4px;font-weight:500}
+.tag-type{background:var(--brand-xpale);color:var(--brand)}
+.tag-center{background:#ecfdf5;color:#065f46}
+.tag-level{background:var(--accent-light);color:#92400e}
+.tag-school{background:#f3e8ff;color:#6b21a8}
+.photo-card-title{font-family:var(--font-d);font-size:15px;font-weight:700;color:var(--ink);margin-bottom:4px}
+.photo-card-meta{font-size:12px;color:var(--ink3);line-height:1.55;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.photo-card-foot{font-family:var(--font-m);font-size:10px;color:var(--ink4);margin-top:10px;padding-top:10px;border-top:1px solid var(--border);display:flex;justify-content:space-between}
+
+.empty-state{padding:80px 32px;text-align:center}
+.empty-icon{font-size:52px;margin-bottom:14px;opacity:0.25}
+.empty-title{font-family:var(--font-d);font-size:20px;font-weight:700;color:var(--ink2);margin-bottom:6px}
+.empty-sub{font-size:13px;color:var(--ink3)}
+
+/* ════════ UPLOAD PAGE ════════ */
+.upload-page{max-width:780px;margin:0 auto;padding:40px 24px 80px}
+.upload-page-head{margin-bottom:28px}
+.upload-page-title{font-family:var(--font-d);font-size:26px;font-weight:800;color:var(--ink);margin-bottom:4px}
+.upload-page-sub{font-size:13px;color:var(--ink3)}
+
+.form-card{background:var(--surface);border-radius:var(--r2);padding:26px 28px;box-shadow:var(--sh);margin-bottom:18px;border:1px solid var(--border)}
+.form-card-title{font-family:var(--font-d);font-size:13px;font-weight:700;color:var(--brand);letter-spacing:0.5px;margin-bottom:20px;padding-bottom:12px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:8px}
+.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.ff{display:flex;flex-direction:column;gap:6px}
+.ff.full{grid-column:1/-1}
+.ff-label{font-family:var(--font-m);font-size:10px;letter-spacing:1.5px;color:var(--ink2);font-weight:500}
+.ff-req{color:var(--danger)}
+.ff-input,.ff-select,.ff-textarea{
+  padding:10px 14px;border:1.5px solid var(--border);border-radius:var(--r);
+  background:var(--surface2);color:var(--ink);font-size:14px;outline:none;
+  transition:border-color var(--t),box-shadow var(--t);width:100%;
+}
+.ff-input:focus,.ff-select:focus,.ff-textarea:focus{border-color:var(--brand);box-shadow:0 0 0 3px rgba(26,74,138,0.1)}
+.ff-input::placeholder,.ff-textarea::placeholder{color:var(--ink4)}
+.ff-textarea{resize:vertical;min-height:90px;line-height:1.6}
+
+/* TYPE SELECTOR */
+.type-selector{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:4px}
+.type-opt{
+  border:2px solid var(--border);border-radius:var(--r2);padding:14px 10px;
+  text-align:center;cursor:pointer;transition:all var(--t);
+}
+.type-opt:hover{border-color:var(--brand-light);background:var(--brand-xpale)}
+.type-opt.selected{border-color:var(--brand);background:var(--brand-xpale)}
+.type-opt-icon{font-size:22px;margin-bottom:6px}
+.type-opt-label{font-family:var(--font-d);font-size:13px;font-weight:700;color:var(--ink2)}
+.type-opt.selected .type-opt-label{color:var(--brand)}
+.type-opt-sub{font-size:11px;color:var(--ink4);margin-top:2px}
+
+/* DYNAMIC FIELDS */
+.dyn-section{display:none;animation:fadeUp .2s ease}
+.dyn-section.show{display:block}
+
+/* DROP ZONE */
+.drop-zone{
+  border:2px dashed var(--border2);border-radius:var(--r2);
+  padding:36px 20px;text-align:center;cursor:pointer;
+  transition:all var(--t);position:relative;background:var(--surface2);
+}
+.drop-zone:hover,.drop-zone.drag-over{border-color:var(--brand);background:var(--brand-xpale)}
+.drop-zone input{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%}
+.drop-icon{
+  width:46px;height:46px;background:var(--surface);border-radius:10px;
+  box-shadow:var(--sh);display:flex;align-items:center;justify-content:center;
+  margin:0 auto 14px;color:var(--brand);
+}
+.drop-title{font-family:var(--font-d);font-size:16px;font-weight:700;color:var(--ink);margin-bottom:4px}
+.drop-hint{font-size:12px;color:var(--ink3)}
+
+/* PREVIEW */
+.preview-strip{display:flex;flex-wrap:wrap;gap:10px;margin-top:16px}
+.prev-item{position:relative;width:82px}
+.prev-img{width:82px;height:82px;border-radius:8px;object-fit:cover;border:2px solid var(--border);display:block}
+.prev-rm{
+  position:absolute;top:-7px;right:-7px;width:20px;height:20px;
+  background:var(--danger);color:#fff;border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  font-size:11px;font-weight:700;cursor:pointer;border:2px solid #fff;
+}
+
+/* SUBMIT */
+.submit-row{display:flex;align-items:center;gap:18px}
+.btn-primary{
+  padding:12px 30px;background:var(--brand);color:#fff;border:none;
+  border-radius:var(--r);font-family:var(--font-d);font-size:15px;font-weight:700;
+  letter-spacing:0.3px;cursor:pointer;transition:all var(--t);display:flex;align-items:center;gap:10px;
+}
+.btn-primary:hover{background:var(--brand-mid);transform:translateY(-1px);box-shadow:0 5px 18px rgba(26,74,138,0.3)}
+.btn-primary:disabled{opacity:0.6;pointer-events:none}
+.btn-secondary{
+  padding:10px 22px;background:transparent;color:var(--ink2);border:1.5px solid var(--border2);
+  border-radius:var(--r);font-size:14px;font-weight:500;cursor:pointer;transition:all var(--t);
+}
+.btn-secondary:hover{border-color:var(--brand);color:var(--brand)}
+.submit-note{font-size:12px;color:var(--ink3);line-height:1.6}
+
+/* PROGRESS */
+.prog-wrap{margin-top:16px;display:none}
+.prog-bg{height:4px;background:var(--border);border-radius:2px;overflow:hidden}
+.prog-fill{height:100%;width:0%;background:var(--brand);transition:width .3s ease;border-radius:2px}
+.prog-text{font-family:var(--font-m);font-size:11px;color:var(--ink3);margin-top:7px}
+
+.alert{padding:12px 16px;border-radius:var(--r);font-size:13px;margin-top:14px;display:none;line-height:1.5}
+.alert.ok{display:block;background:#f0fdf4;border:1px solid #bbf7d0;color:#166534}
+.alert.err{display:block;background:#fef2f2;border:1px solid #fecaca;color:#991b1b}
+.alert.warn{display:block;background:#fffbeb;border:1px solid #fde68a;color:#92400e}
+
+/* ════════ LIGHTBOX ════════ */
+.lightbox{
+  position:fixed;inset:0;background:rgba(8,18,36,0.94);z-index:500;
+  display:flex;align-items:center;justify-content:center;padding:20px;
+  opacity:0;pointer-events:none;transition:opacity .2s;
+}
+.lightbox.open{opacity:1;pointer-events:auto}
+.lb-inner{position:relative;max-width:860px;width:100%}
+.lb-img{width:100%;max-height:72vh;object-fit:contain;border-radius:10px;display:block}
+.lb-info{background:rgba(10,26,60,0.85);backdrop-filter:blur(8px);border-radius:0 0 10px 10px;padding:18px 22px}
+.lb-title{font-family:var(--font-d);font-size:17px;font-weight:700;color:#fff;margin-bottom:8px}
+.lb-tags{display:flex;flex-wrap:wrap;gap:7px;margin-bottom:8px}
+.lb-tag{font-family:var(--font-m);font-size:10px;letter-spacing:0.5px;color:rgba(255,255,255,0.55);background:rgba(255,255,255,0.1);padding:3px 9px;border-radius:4px}
+.lb-comment{font-size:13px;color:rgba(255,255,255,0.6);line-height:1.6}
+.lb-actions{display:flex;gap:10px;margin-top:14px}
+.lb-btn{
+  padding:7px 16px;background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.18);
+  border-radius:6px;color:#fff;font-size:12px;cursor:pointer;transition:all var(--t);
+}
+.lb-btn:hover{background:rgba(255,255,255,0.2)}
+.lb-close{
+  position:absolute;top:-14px;right:-14px;width:36px;height:36px;
+  background:var(--surface);border-radius:50%;display:flex;align-items:center;justify-content:center;
+  cursor:pointer;font-size:16px;color:var(--ink2);box-shadow:var(--sh);
+  transition:all var(--t);border:none;
+}
+.lb-close:hover{background:var(--danger);color:#fff}
+
+/* ════════ EDIT MODAL ════════ */
+.modal-bg{
+  position:fixed;inset:0;background:rgba(8,18,36,0.6);z-index:400;
+  display:flex;align-items:center;justify-content:center;padding:20px;
+  opacity:0;pointer-events:none;transition:opacity .2s;backdrop-filter:blur(4px);
+}
+.modal-bg.open{opacity:1;pointer-events:auto}
+.modal-box{
+  background:var(--surface);border-radius:var(--r3);max-width:640px;width:100%;
+  max-height:90vh;overflow-y:auto;box-shadow:var(--sh2);
+  transform:scale(0.97);transition:transform .2s;
+}
+.modal-bg.open .modal-box{transform:scale(1)}
+.modal-head{
+  padding:22px 28px;border-bottom:1px solid var(--border);
+  display:flex;justify-content:space-between;align-items:center;
+  position:sticky;top:0;background:var(--surface);z-index:1;border-radius:var(--r3) var(--r3) 0 0;
+}
+.modal-title{font-family:var(--font-d);font-size:18px;font-weight:800;color:var(--ink)}
+.modal-close-btn{
+  width:30px;height:30px;border:1.5px solid var(--border);border-radius:7px;
+  display:flex;align-items:center;justify-content:center;cursor:pointer;
+  color:var(--ink3);background:transparent;font-size:16px;transition:all var(--t);
+}
+.modal-close-btn:hover{border-color:var(--danger);color:var(--danger)}
+.modal-body{padding:28px}
+.modal-foot{padding:20px 28px;border-top:1px solid var(--border);display:flex;gap:12px;justify-content:flex-end;background:var(--surface2);border-radius:0 0 var(--r3) var(--r3)}
+
+/* ════════ SETUP BANNER ════════ */
+.setup-banner{
+  background:var(--accent-light);border-bottom:1px solid #fde68a;
+  padding:11px 32px;display:flex;align-items:center;gap:12px;
+}
+.setup-banner-txt{font-size:13px;color:#92400e;flex:1}
+.setup-banner-txt strong{color:#78350f}
+.setup-banner-btn{
+  padding:6px 18px;background:var(--warn);color:#fff;border:none;border-radius:6px;
+  font-size:12px;font-weight:600;cursor:pointer;white-space:nowrap;transition:all var(--t);
+}
+.setup-banner-btn:hover{background:#b45309}
+
+/* SETUP MODAL (reuses modal-bg/box) */
+.code-block{
+  background:var(--ink);color:#c8f04a;font-family:var(--font-m);font-size:11px;
+  padding:16px;border-radius:var(--r2);margin-top:10px;white-space:pre;overflow-x:auto;line-height:1.7;
+}
+.step-badge{display:inline-block;background:var(--brand);color:#fff;font-family:var(--font-m);font-size:10px;letter-spacing:1px;padding:3px 10px;border-radius:4px;margin-bottom:10px}
+.step-title{font-family:var(--font-d);font-size:15px;font-weight:700;color:var(--ink);margin-bottom:6px}
+.step-desc{font-size:13px;color:var(--ink2);line-height:1.7}
+.modal-step{margin-bottom:24px;padding-bottom:24px;border-bottom:1px solid var(--border)}
+.modal-step:last-child{border-bottom:none;margin-bottom:0}
+
+/* SPINNER */
+.spin{width:14px;height:14px;border:2px solid rgba(255,255,255,0.3);border-top-color:#fff;border-radius:50%;animation:rot .6s linear infinite;flex-shrink:0}
+@keyframes rot{to{transform:rotate(360deg)}}
+
+/* RESPONSIVE */
+@media(max-width:640px){
+  .topnav{padding:0 14px;gap:10px}
+  .nav-tabs{display:none}
+  .browse-hero{padding:28px 16px}
+  .pick-bar,.filter-bar{padding:12px 16px}
+  .gallery-wrap{padding:16px 16px 48px}
+  .gallery-grid{grid-template-columns:1fr 1fr;gap:12px}
+  .upload-page{padding:24px 14px 60px}
+  .form-card{padding:18px}
+  .form-grid{grid-template-columns:1fr}
+  .type-selector{grid-template-columns:1fr 1fr}
+}
+</style>
+</head>
+<body>
+
+<!-- ══════════════════════════════════════════
+     LOGIN SCREEN
+══════════════════════════════════════════ -->
+<div id="login-screen">
+  <div class="login-wrap">
+    <div class="login-logo-row">
+      <div class="login-logo-box"><span>FRA</span></div>
+      <div class="login-logo-text">
+        <div class="t1">FRA Archive</div>
+        <div class="t2">CLASS PHOTO SYSTEM</div>
+      </div>
+    </div>
+    <div class="login-card">
+      <div class="login-card-title">Staff Login</div>
+      <div class="login-card-sub">Internal use only — please sign in to continue</div>
+      <div class="lf">
+        <label class="lbl">USERNAME</label>
+        <input class="inp" id="l-user" type="text" placeholder="Enter username" autocomplete="username">
+      </div>
+      <div class="lf">
+        <label class="lbl">PASSWORD</label>
+        <input class="inp" id="l-pass" type="password" placeholder="Enter password" autocomplete="current-password">
+      </div>
+      <button class="login-btn" onclick="doLogin()">Sign In →</button>
+      <div class="login-err" id="l-err">Incorrect username or password.</div>
+      <div class="login-hint">Default credentials: admin / fra2026</div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════
+     APP
+══════════════════════════════════════════ -->
+<div id="app">
+
+  <!-- SETUP BANNER -->
+  <div class="setup-banner" id="setup-banner">
+    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#92400e" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+    <span class="setup-banner-txt"><strong>Setup required:</strong> Connect Google Apps Script to save photos & data to Google Drive/Sheets.</span>
+    <button class="setup-banner-btn" onclick="openSetupModal()">Configure Backend →</button>
+  </div>
+
+  <!-- TOP NAV -->
+  <nav class="topnav">
+    <div class="nav-logo" onclick="switchPage('browse')">
+      <div class="nav-logo-box"><span>FRA</span></div>
+      <div class="nav-brand">FRA Archive</div>
+    </div>
+    <div class="nav-divider"></div>
+    <div class="nav-tabs">
+      <button class="nav-tab active" id="nav-browse" onclick="switchPage('browse')">📸 Browse</button>
+      <button class="nav-tab" id="nav-upload" onclick="switchPage('upload')">⬆ Upload</button>
+    </div>
+    <div class="nav-right">
+      <span class="nav-user" id="nav-user-label">ADMIN</span>
+      <button class="nav-logout" onclick="doLogout()">Sign out</button>
+    </div>
+  </nav>
+
+  <!-- ══════ BROWSE PAGE ══════ -->
+  <div class="page active" id="page-browse">
+    <div class="browse-hero">
+      <div class="hero-eyebrow">FRA · CLASS PHOTO ARCHIVE</div>
+      <div class="hero-title">Class <em>Photos</em></div>
+      <div class="hero-sub">Browse, view and share photos from all centers and lessons.</div>
+    </div>
+
+    <!-- YEAR PICKER -->
+    <div class="pick-bar">
+      <span class="pick-label">YEAR</span>
+      <div class="pick-chips" id="year-chips"></div>
+      <div class="pick-sep"></div>
+      <span class="pick-label">MONTH</span>
+      <div class="pick-chips" id="month-chips"></div>
+    </div>
+
+    <!-- TYPE + FILTER -->
+    <div class="filter-bar">
+      <span class="pick-label">TYPE</span>
+      <select class="fsel" id="f-type" onchange="applyFilters()">
+        <option value="">All Types</option>
+        <option>In-Centre</option>
+        <option>Pre-School</option>
+        <option>INT</option>
+        <option>OST</option>
+      </select>
+      <select class="fsel" id="f-center" onchange="applyFilters()">
+        <option value="">All Centers</option>
+        <option>TPY</option><option>BDM</option><option>CBP</option><option>FPL</option>
+      </select>
+      <select class="fsel" id="f-level" onchange="applyFilters()">
+        <option value="">All Levels</option>
+        <option>Level 1</option><option>Level 2</option><option>Level 3</option>
+        <option>Level 4</option><option>Level 5</option><option>Level 6</option>
+        <option>Level 7</option><option>Level 8</option>
+      </select>
+      <button class="filter-clear" onclick="resetFilters()">✕ Clear</button>
+    </div>
+
+    <!-- GALLERY -->
+    <div class="gallery-wrap">
+      <div class="gallery-header">
+        <div class="gallery-count" id="gallery-count">— entries</div>
+      </div>
+      <div class="gallery-grid" id="gallery-grid"></div>
+      <div class="empty-state hidden" id="empty-state">
+        <div class="empty-icon">📷</div>
+        <div class="empty-title">No photos found</div>
+        <div class="empty-sub">Try adjusting your filters or upload the first photo.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════ UPLOAD PAGE ══════ -->
+  <div class="page" id="page-upload">
+    <div class="upload-page">
+      <div class="upload-page-head">
+        <div class="upload-page-title">Upload Class Photos</div>
+        <div class="upload-page-sub">Select the type, fill in the details, then attach photos.</div>
+      </div>
+
+      <!-- STEP 1: TYPE -->
+      <div class="form-card">
+        <div class="form-card-title">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
+          Step 1 — Select Type
+        </div>
+        <div class="type-selector">
+          <div class="type-opt" id="t-incenter" onclick="selectType('In-Centre')">
+            <div class="type-opt-icon">🏫</div>
+            <div class="type-opt-label">In-Centre</div>
+            <div class="type-opt-sub">Individual classes</div>
+          </div>
+          <div class="type-opt" id="t-preschool" onclick="selectType('Pre-School')">
+            <div class="type-opt-icon">🎒</div>
+            <div class="type-opt-label">Pre-School</div>
+            <div class="type-opt-sub">TPY / BDM / CBP / FPL</div>
+          </div>
+          <div class="type-opt" id="t-int" onclick="selectType('INT')">
+            <div class="type-opt-icon">🏢</div>
+            <div class="type-opt-label">INT</div>
+            <div class="type-opt-sub">External schools</div>
+          </div>
+          <div class="type-opt" id="t-ost" onclick="selectType('OST')">
+            <div class="type-opt-icon">🌟</div>
+            <div class="type-opt-label">OST</div>
+            <div class="type-opt-sub">Activities</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- STEP 2: DATE -->
+      <div class="form-card">
+        <div class="form-card-title">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+          Step 2 — Date
+        </div>
+        <div class="form-grid">
+          <div class="ff">
+            <label class="ff-label">YEAR <span class="ff-req">*</span></label>
+            <select class="ff-select" id="u-year">
+              <option value="">Select year…</option>
+              <option>2026</option><option>2027</option><option>2028</option><option>2029</option><option>2030</option>
+            </select>
+          </div>
+          <div class="ff">
+            <label class="ff-label">MONTH <span class="ff-req">*</span></label>
+            <select class="ff-select" id="u-month">
+              <option value="">Select month…</option>
+              <option>January</option><option>February</option><option>March</option>
+              <option>April</option><option>May</option><option>June</option>
+              <option>July</option><option>August</option><option>September</option>
+              <option>October</option><option>November</option><option>December</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <!-- STEP 3: DYNAMIC FIELDS -->
+
+      <!-- IN-CENTRE fields -->
+      <div class="form-card dyn-section" id="fields-incenter">
+        <div class="form-card-title">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+          Step 3 — In-Centre Details
+        </div>
+        <div class="form-grid">
+          <div class="ff">
+            <label class="ff-label">TEACHER NAME <span class="ff-req">*</span></label>
+            <input class="ff-input" id="ic-name" type="text" placeholder="e.g. Ms Sarah">
+          </div>
+          <div class="ff">
+            <label class="ff-label">LESSON NUMBER <span class="ff-req">*</span></label>
+            <input class="ff-input" id="ic-lesson" type="text" placeholder="e.g. Lesson 4">
+          </div>
+          <div class="ff">
+            <label class="ff-label">LEVEL <span class="ff-req">*</span></label>
+            <select class="ff-select" id="ic-level">
+              <option value="">Select level…</option>
+              <option>Level 1</option><option>Level 2</option><option>Level 3</option>
+              <option>Level 4</option><option>Level 5</option><option>Level 6</option>
+              <option>Level 7</option><option>Level 8</option>
+            </select>
+          </div>
+          <div class="ff full">
+            <label class="ff-label">COMMENTS</label>
+            <textarea class="ff-textarea" id="ic-comments" placeholder="Notes about this class…"></textarea>
+          </div>
+        </div>
+      </div>
+
+      <!-- PRE-SCHOOL fields -->
+      <div class="form-card dyn-section" id="fields-preschool">
+        <div class="form-card-title">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+          Step 3 — Pre-School Details
+        </div>
+        <div class="form-grid">
+          <div class="ff">
+            <label class="ff-label">CENTER <span class="ff-req">*</span></label>
+            <select class="ff-select" id="ps-center">
+              <option value="">Select center…</option>
+              <option>TPY</option><option>BDM</option><option>CBP</option><option>FPL</option>
+            </select>
+          </div>
+          <div class="ff">
+            <label class="ff-label">TEACHER NAME <span class="ff-req">*</span></label>
+            <input class="ff-input" id="ps-name" type="text" placeholder="e.g. Ms Sarah">
+          </div>
+          <div class="ff">
+            <label class="ff-label">LESSON NUMBER <span class="ff-req">*</span></label>
+            <input class="ff-input" id="ps-lesson" type="text" placeholder="e.g. Lesson 2">
+          </div>
+          <div class="ff">
+            <label class="ff-label">LEVEL <span class="ff-req">*</span></label>
+            <select class="ff-select" id="ps-level">
+              <option value="">Select level…</option>
+              <option>Level 1</option><option>Level 2</option><option>Level 3</option>
+              <option>Level 4</option><option>Level 5</option><option>Level 6</option>
+              <option>Level 7</option><option>Level 8</option>
+            </select>
+          </div>
+          <div class="ff full">
+            <label class="ff-label">COMMENTS</label>
+            <textarea class="ff-textarea" id="ps-comments" placeholder="Notes about this class…"></textarea>
+          </div>
+        </div>
+      </div>
+
+      <!-- INT fields -->
+      <div class="form-card dyn-section" id="fields-int">
+        <div class="form-card-title">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+          Step 3 — INT School
+        </div>
+        <div class="form-grid">
+          <div class="ff full">
+            <label class="ff-label">SCHOOL <span class="ff-req">*</span></label>
+            <select class="ff-select" id="int-school">
+              <option value="">Select school…</option>
+              <option>SJII</option>
+              <option>OWIS@Punggol</option>
+              <option>OWIS@Nanyang</option>
+              <option>XCL</option>
+              <option>AIS</option>
+            </select>
+          </div>
+        </div>
+        <div style="margin-top:12px;font-size:13px;color:var(--ink3)">📎 Just attach photos below — no other details needed for INT.</div>
+      </div>
+
+      <!-- OST fields -->
+      <div class="form-card dyn-section" id="fields-ost">
+        <div class="form-card-title">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+          Step 3 — OST Activity
+        </div>
+        <div class="form-grid">
+          <div class="ff full">
+            <label class="ff-label">ACTIVITY NAME <span class="ff-req">*</span></label>
+            <input class="ff-input" id="ost-activity" type="text" placeholder="e.g. Sports Day, Field Trip to Zoo…">
+          </div>
+        </div>
+      </div>
+
+      <!-- PHOTOS -->
+      <div class="form-card">
+        <div class="form-card-title">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+          Step 4 — Photos <span class="ff-req">*</span>
+        </div>
+        <div class="drop-zone" id="drop-zone">
+          <input type="file" id="photo-input" multiple accept="image/*" onchange="handlePhotoSelect(this.files)">
+          <div class="drop-icon">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+          </div>
+          <div class="drop-title">Click or drag &amp; drop photos here</div>
+          <div class="drop-hint">JPG, PNG, WEBP · Multiple files supported</div>
+        </div>
+        <div class="preview-strip" id="preview-strip"></div>
+      </div>
+
+      <!-- SUBMIT -->
+      <div class="form-card">
+        <div class="submit-row">
+          <button class="btn-primary" id="submit-btn" onclick="submitUpload()">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+            <span id="submit-text">Upload to Archive</span>
+            <span class="spin hidden" id="submit-spin"></span>
+          </button>
+          <div class="submit-note">Photos saved to Google Drive.<br>Visible in Browse immediately after upload.</div>
+        </div>
+        <div class="prog-wrap" id="prog-wrap">
+          <div class="prog-bg"><div class="prog-fill" id="prog-fill"></div></div>
+          <div class="prog-text" id="prog-text">Uploading…</div>
+        </div>
+        <div class="alert" id="upload-alert"></div>
+      </div>
+    </div>
+  </div>
+
+</div><!-- /app -->
+
+<!-- ══════ LIGHTBOX ══════ -->
+<div class="lightbox" id="lightbox" onclick="closeLB(event)">
+  <div class="lb-inner" onclick="event.stopPropagation()">
+    <button class="lb-close" onclick="closeLightbox()">✕</button>
+    <img class="lb-img" id="lb-img" src="" alt="">
+    <div class="lb-info">
+      <div class="lb-title" id="lb-title"></div>
+      <div class="lb-tags" id="lb-tags"></div>
+      <div class="lb-comment" id="lb-comment"></div>
+      <div class="lb-actions">
+        <button class="lb-btn" onclick="copyUrl()">📋 Copy URL</button>
+        <button class="lb-btn" onclick="openInNew()">↗ Open full size</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════ EDIT MODAL ══════ -->
+<div class="modal-bg" id="edit-modal">
+  <div class="modal-box">
+    <div class="modal-head">
+      <div class="modal-title">✏️ Edit Entry</div>
+      <button class="modal-close-btn" onclick="closeEditModal()">✕</button>
+    </div>
+    <div class="modal-body" id="edit-modal-body">
+      <!-- dynamically populated -->
+    </div>
+    <div class="modal-foot">
+      <button class="btn-secondary" onclick="closeEditModal()">Cancel</button>
+      <button class="btn-primary" id="edit-save-btn" onclick="saveEdit()">
+        <span id="edit-save-text">Save Changes</span>
+        <span class="spin hidden" id="edit-save-spin"></span>
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- ══════ SETUP MODAL ══════ -->
+<div class="modal-bg" id="setup-modal">
+  <div class="modal-box" style="max-width:700px">
+    <div class="modal-head">
+      <div class="modal-title">⚙️ Backend Setup</div>
+      <button class="modal-close-btn" onclick="closeSetupModal()">✕</button>
+    </div>
+    <div class="modal-body">
+
+      <div class="modal-step">
+        <div class="step-badge">STEP 01</div>
+        <div class="step-title">Create Google Sheet for Metadata</div>
+        <div class="step-desc">Go to <strong>sheets.google.com</strong> → New Spreadsheet → Name: <em>FRA Archive Data</em>. Add these Row 1 headers:</div>
+        <div class="code-block">id	year	month	type	center	school	name	lesson	level	activity	comments	fileIds	fileUrls	timestamp</div>
+      </div>
+
+      <div class="modal-step">
+        <div class="step-badge">STEP 02</div>
+        <div class="step-title">Create Google Drive Folder</div>
+        <div class="step-desc">Create a folder <strong>FRA Photos</strong> in Google Drive. Set sharing to <strong>"Anyone with the link → Viewer"</strong>. Copy the folder ID from the URL after <code>/folders/</code>.</div>
+      </div>
+
+      <div class="modal-step">
+        <div class="step-badge">STEP 03</div>
+        <div class="step-title">Deploy Apps Script</div>
+        <div class="step-desc">In the Sheet → <strong>Extensions → Apps Script</strong> → paste this code → <strong>Deploy → New Deployment → Web App</strong> → Execute as: Me, Access: Anyone → Copy URL.</div>
+        <div class="code-block">const DRIVE_FOLDER = 'YOUR_FOLDER_ID_HERE';
+const SHEET = 'Sheet1';
+
+function doPost(e) {
+  var p = JSON.parse(e.postData.contents);
+  if (p.action === 'upload') return handleUpload(p);
+  if (p.action === 'update') return handleUpdate(p);
+  if (p.action === 'delete') return handleDelete(p);
+  return res({error:'unknown'});
+}
+function doGet(e) {
+  if (e.parameter.action === 'list') return handleList(e.parameter);
+  return res({error:'unknown'});
+}
+function handleUpload(p) {
+  var ss = SpreadsheetApp.getActiveSpreadsheet().getSheetByName(SHEET);
+  var folder = DriveApp.getFolderById(DRIVE_FOLDER);
+  var urls = [], ids = [];
+  (p.files||[]).forEach(function(f){
+    var blob = Utilities.newBlob(Utilities.base64Decode(f.data), f.mime, f.name);
+    var file = folder.createFile(blob);
+    file.setSharing(DriveApp.Access.ANYONE_WITH_LINK, DriveApp.Permission.VIEW);
+    ids.push(file.getId());
+    urls.push('https://drive.google.com/uc?export=view&id='+file.getId());
+  });
+  var id = Utilities.getUuid();
+  ss.appendRow([id,p.year,p.month,p.type,p.center||'',p.school||'',p.name||'',p.lesson||'',p.level||'',p.activity||'',p.comments||'',ids.join(','),urls.join(','),new Date()]);
+  return res({ok:true,id:id,urls:urls});
+}
+function handleUpdate(p) {
+  var ss = SpreadsheetApp.getActiveSpreadsheet().getSheetByName(SHEET);
+  var data = ss.getDataRange().getValues();
+  for(var i=1;i<data.length;i++){
+    if(data[i][0]===p.id){
+      ss.getRange(i+1,5).setValue(p.center||'');
+      ss.getRange(i+1,6).setValue(p.school||'');
+      ss.getRange(i+1,7).setValue(p.name||'');
+      ss.getRange(i+1,8).setValue(p.lesson||'');
+      ss.getRange(i+1,9).setValue(p.level||'');
+      ss.getRange(i+1,10).setValue(p.activity||'');
+      ss.getRange(i+1,11).setValue(p.comments||'');
+      return res({ok:true});
+    }
+  }
+  return res({error:'not found'});
+}
+function handleList(q) {
+  var ss = SpreadsheetApp.getActiveSpreadsheet().getSheetByName(SHEET);
+  var rows = ss.getDataRange().getValues().slice(1);
+  var result = rows.filter(function(r){
+    return (!q.year||r[1]==q.year) && (!q.month||r[2]==q.month) && (!q.type||r[3]==q.type);
+  }).map(function(r){
+    return {id:r[0],year:r[1],month:r[2],type:r[3],center:r[4],school:r[5],name:r[6],lesson:r[7],level:r[8],activity:r[9],comments:r[10],fileUrls:String(r[12]).split(',').filter(Boolean)};
+  });
+  return res(result);
+}
+function handleDelete(p){
+  var ss = SpreadsheetApp.getActiveSpreadsheet().getSheetByName(SHEET);
+  var data = ss.getDataRange().getValues();
+  for(var i=1;i<data.length;i++){
+    if(data[i][0]===p.id){ss.deleteRow(i+1);return res({ok:true});}
+  }
+  return res({error:'not found'});
+}
+function res(d){return ContentService.createTextOutput(JSON.stringify(d)).setMimeType(ContentService.MimeType.JSON);}</div>
+      </div>
+
+      <div class="modal-step">
+        <div class="step-badge">STEP 04</div>
+        <div class="step-title">Paste Your Web App URL</div>
+        <div class="step-desc" style="margin-bottom:10px">After deploying, paste the URL here to connect the website to your backend.</div>
+        <label class="lbl">WEB APP URL</label>
+        <input class="inp" id="setup-url" type="url" placeholder="https://script.google.com/macros/s/…/exec" style="font-family:var(--font-m);font-size:12px">
+        <div style="display:flex;gap:10px;margin-top:14px">
+          <button class="btn-primary" onclick="saveSetup()">Save &amp; Connect</button>
+          <button class="btn-secondary" onclick="testSetup()">Test Connection</button>
+        </div>
+        <div class="alert" id="setup-alert"></div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<script>
+// ═══════════════════════════════════
+// CONFIG & STATE
+// ═══════════════════════════════════
+const CREDS = { user:'admin', pass:'fra2026' };
+let SCRIPT_URL = localStorage.getItem('fra_url') || '';
+
+const YEARS  = ['2026','2027','2028','2029','2030'];
+const MONTHS = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+const TYPES  = ['In-Centre','Pre-School','INT','OST'];
+
+let state = { year: YEARS[0], month: '', type:'', center:'', level:'' };
+let allEntries = [];
+let selectedFiles = [];
+let currentType = '';
+let currentEntry = null; // for edit modal
+let lbEntry = null;      // for lightbox
+
+// ═══════════════════════════════════
+// LOGIN
+// ═══════════════════════════════════
+function doLogin() {
+  const u = document.getElementById('l-user').value.trim();
+  const p = document.getElementById('l-pass').value;
+  if (u === CREDS.user && p === CREDS.pass) {
+    document.getElementById('login-screen').classList.add('out');
+    setTimeout(() => {
+      document.getElementById('login-screen').style.display = 'none';
+      document.getElementById('app').classList.add('show');
+      init();
+    }, 400);
+  } else {
+    document.getElementById('l-err').style.display = 'block';
+  }
+}
+function doLogout() {
+  document.getElementById('app').classList.remove('show');
+  document.getElementById('login-screen').style.display = 'flex';
+  document.getElementById('login-screen').classList.remove('out');
+  document.getElementById('l-pass').value = '';
+  document.getElementById('l-err').style.display = 'none';
+}
+document.getElementById('l-pass').addEventListener('keydown', e => { if(e.key==='Enter') doLogin(); });
+document.getElementById('l-user').addEventListener('keydown', e => { if(e.key==='Enter') doLogin(); });
+
+// ═══════════════════════════════════
+// INIT
+// ═══════════════════════════════════
+function init() {
+  buildYearChips();
+  buildMonthChips();
+  if (SCRIPT_URL) document.getElementById('setup-banner').classList.add('hidden');
+  loadEntries();
+}
+
+function buildYearChips() {
+  const wrap = document.getElementById('year-chips');
+  wrap.innerHTML = YEARS.map(y =>
+    `<div class="chip ${y===state.year?'active':''}" onclick="setYear('${y}')">${y}</div>`
+  ).join('');
+}
+function buildMonthChips() {
+  const wrap = document.getElementById('month-chips');
+  const shorts = ['All','Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+  wrap.innerHTML = shorts.map((m,i) => {
+    const val = i===0 ? '' : MONTHS[i-1];
+    return `<div class="chip ${val===state.month?'active':''}" onclick="setMonth('${val}','${m}')">${m}</div>`;
+  }).join('');
+}
+
+function setYear(y) {
+  state.year = y;
+  buildYearChips();
+  loadEntries();
+}
+function setMonth(val, label) {
+  state.month = val;
+  buildMonthChips();
+  loadEntries();
+}
+
+// ═══════════════════════════════════
+// PAGE SWITCH
+// ═══════════════════════════════════
+function switchPage(name) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
+  document.getElementById('page-'+name).classList.add('active');
+  document.getElementById('nav-'+name).classList.add('active');
+  if (name==='browse') loadEntries();
+}
+
+// ═══════════════════════════════════
+// TYPE SELECTOR
+// ═══════════════════════════════════
+const TYPE_IDS = {'In-Centre':'incenter','Pre-School':'preschool','INT':'int','OST':'ost'};
+function selectType(t) {
+  currentType = t;
+  document.querySelectorAll('.type-opt').forEach(el => el.classList.remove('selected'));
+  document.getElementById('t-'+TYPE_IDS[t]).classList.add('selected');
+  document.querySelectorAll('.dyn-section').forEach(el => el.classList.remove('show'));
+  document.getElementById('fields-'+TYPE_IDS[t]).classList.add('show');
+}
+
+// ═══════════════════════════════════
+// PHOTO SELECTION
+// ═══════════════════════════════════
+const dropZone = document.getElementById('drop-zone');
+dropZone.addEventListener('dragover', e => { e.preventDefault(); dropZone.classList.add('drag-over'); });
+dropZone.addEventListener('dragleave', () => dropZone.classList.remove('drag-over'));
+dropZone.addEventListener('drop', e => { e.preventDefault(); dropZone.classList.remove('drag-over'); addFiles(e.dataTransfer.files); });
+
+function handlePhotoSelect(files) { addFiles(files); }
+
+function addFiles(files) {
+  for (const f of files) {
+    if (!f.type.startsWith('image/')) continue;
+    selectedFiles.push(f);
+  }
+  renderPreviews();
+}
+
+function renderPreviews() {
+  const strip = document.getElementById('preview-strip');
+  strip.innerHTML = selectedFiles.map((f,i) => {
+    const url = URL.createObjectURL(f);
+    return `<div class="prev-item">
+      <img class="prev-img" src="${url}" alt="">
+      <div class="prev-rm" onclick="removeFile(${i})">✕</div>
+    </div>`;
+  }).join('');
+}
+function removeFile(i) {
+  selectedFiles.splice(i, 1);
+  renderPreviews();
+}
+
+// ═══════════════════════════════════
+// UPLOAD
+// ═══════════════════════════════════
+async function submitUpload() {
+  const alert = document.getElementById('upload-alert');
+  alert.className = 'alert'; alert.style.display = 'none';
+
+  // Validate
+  if (!currentType) return showAlert('upload-alert','warn','Please select a type first.');
+  const year  = document.getElementById('u-year').value;
+  const month = document.getElementById('u-month').value;
+  if (!year || !month) return showAlert('upload-alert','err','Please select year and month.');
+
+  let payload = { action:'upload', year, month, type:currentType };
+
+  if (currentType === 'In-Centre') {
+    const name = document.getElementById('ic-name').value.trim();
+    const lesson = document.getElementById('ic-lesson').value.trim();
+    const level = document.getElementById('ic-level').value;
+    if (!name||!lesson||!level) return showAlert('upload-alert','err','Please fill in all required fields.');
+    payload = {...payload, name, lesson, level, comments:document.getElementById('ic-comments').value.trim()};
+  } else if (currentType === 'Pre-School') {
+    const center = document.getElementById('ps-center').value;
+    const name = document.getElementById('ps-name').value.trim();
+    const lesson = document.getElementById('ps-lesson').value.trim();
+    const level = document.getElementById('ps-level').value;
+    if (!center||!name||!lesson||!level) return showAlert('upload-alert','err','Please fill in all required fields.');
+    payload = {...payload, center, name, lesson, level, comments:document.getElementById('ps-comments').value.trim()};
+  } else if (currentType === 'INT') {
+    const school = document.getElementById('int-school').value;
+    if (!school) return showAlert('upload-alert','err','Please select a school.');
+    payload = {...payload, school};
+  } else if (currentType === 'OST') {
+    const activity = document.getElementById('ost-activity').value.trim();
+    if (!activity) return showAlert('upload-alert','err','Please enter an activity name.');
+    payload = {...payload, activity};
+  }
+
+  if (selectedFiles.length === 0) return showAlert('upload-alert','err','Please attach at least one photo.');
+
+  if (!SCRIPT_URL) {
+    // Demo mode — local only
+    const urls = selectedFiles.map(f => URL.createObjectURL(f));
+    const entry = { ...payload, id: 'local_'+Date.now(), fileUrls: urls };
+    allEntries.unshift(entry);
+    renderGallery(allEntries);
+    resetUploadForm();
+    showAlert('upload-alert','warn','⚠ Demo mode: photos saved locally only (not to Google Drive). Configure backend to persist.');
+    switchPage('browse');
+    return;
+  }
+
+  // Real upload
+  setUploading(true);
+  const prog = document.getElementById('prog-wrap');
+  const bar = document.getElementById('prog-fill');
+  const txt = document.getElementById('prog-text');
+  prog.style.display = 'block'; bar.style.width='0%';
+
+  try {
+    const filePayloads = [];
+    for (let i=0; i<selectedFiles.length; i++) {
+      txt.textContent = `Reading photo ${i+1} of ${selectedFiles.length}…`;
+      bar.style.width = `${Math.round((i/selectedFiles.length)*50)}%`;
+      const b64 = await toBase64(selectedFiles[i]);
+      filePayloads.push({ name:selectedFiles[i].name, mime:selectedFiles[i].type, data:b64 });
+    }
+    txt.textContent = 'Uploading to Google Drive…';
+    bar.style.width = '70%';
+    const res = await fetch(SCRIPT_URL, {
+      method:'POST', headers:{'Content-Type':'application/json'},
+      body: JSON.stringify({...payload, files: filePayloads})
+    });
+    const data = await res.json();
+    bar.style.width = '100%';
+    txt.textContent = `✓ ${selectedFiles.length} photo(s) uploaded!`;
+    if (data.ok) {
+      const entry = {...payload, id:data.id, fileUrls:data.urls||[]};
+      allEntries.unshift(entry);
+      renderGallery(allEntries);
+      resetUploadForm();
+      showAlert('upload-alert','ok',`✓ Successfully uploaded ${data.urls?.length||0} photo(s) to Google Drive!`);
+      setTimeout(() => switchPage('browse'), 1500);
+    } else {
+      showAlert('upload-alert','err','Upload failed: '+(data.error||'unknown error'));
+    }
+  } catch(e) {
+    showAlert('upload-alert','err','Network error. Check your backend URL and try again.');
+  } finally {
+    setUploading(false);
+    setTimeout(() => { prog.style.display='none'; bar.style.width='0%'; }, 2000);
+  }
+}
+
+function setUploading(v) {
+  document.getElementById('submit-btn').disabled = v;
+  document.getElementById('submit-text').textContent = v ? 'Uploading…' : 'Upload to Archive';
+  document.getElementById('submit-spin').classList.toggle('hidden', !v);
+}
+
+function resetUploadForm() {
+  currentType = '';
+  selectedFiles = [];
+  document.querySelectorAll('.type-opt').forEach(el => el.classList.remove('selected'));
+  document.querySelectorAll('.dyn-section').forEach(el => el.classList.remove('show'));
+  document.getElementById('preview-strip').innerHTML = '';
+  document.getElementById('photo-input').value = '';
+  ['ic-name','ic-lesson','ic-comments','ps-name','ps-lesson','ps-comments','ost-activity'].forEach(id => { try{document.getElementById(id).value='';}catch(e){} });
+  ['ic-level','ps-center','ps-level','int-school','u-year','u-month'].forEach(id => { try{document.getElementById(id).value='';}catch(e){} });
+}
+
+function toBase64(file) {
+  return new Promise((res,rej) => {
+    const r = new FileReader();
+    r.onload = () => res(r.result.split(',')[1]);
+    r.onerror = rej;
+    r.readAsDataURL(file);
+  });
+}
+
+// ═══════════════════════════════════
+// BROWSE / GALLERY
+// ═══════════════════════════════════
+async function loadEntries() {
+  const countEl = document.getElementById('gallery-count');
+  countEl.textContent = 'Loading…';
+  if (!SCRIPT_URL) {
+    renderGallery(allEntries);
+    return;
+  }
+  try {
+    const params = new URLSearchParams({ action:'list', year:state.year });
+    if (state.month) params.set('month', state.month);
+    const res = await fetch(`${SCRIPT_URL}?${params}`);
+    allEntries = await res.json();
+    applyFilters();
+  } catch(e) {
+    renderGallery(allEntries);
+  }
+}
+
+function applyFilters() {
+  const t = document.getElementById('f-type').value;
+  const c = document.getElementById('f-center').value;
+  const l = document.getElementById('f-level').value;
+  let filtered = allEntries.filter(e => {
+    if (state.month && e.month !== state.month) return false;
+    if (t && e.type !== t) return false;
+    if (c && e.center !== c) return false;
+    if (l && e.level !== l) return false;
+    return true;
+  });
+  renderGallery(filtered);
+}
+
+function resetFilters() {
+  document.getElementById('f-type').value = '';
+  document.getElementById('f-center').value = '';
+  document.getElementById('f-level').value = '';
+  applyFilters();
+}
+
+function renderGallery(list) {
+  const grid = document.getElementById('gallery-grid');
+  const empty = document.getElementById('empty-state');
+  const count = document.getElementById('gallery-count');
+  count.textContent = `${list.length} entr${list.length!==1?'ies':'y'} · ${state.year}${state.month?' · '+state.month:''}`;
+
+  if (!list.length) {
+    grid.innerHTML = '';
+    empty.classList.remove('hidden');
+    return;
+  }
+  empty.classList.add('hidden');
+
+  grid.innerHTML = list.map((e,idx) => {
+    const firstUrl = (e.fileUrls&&e.fileUrls[0]) || '';
+    const imgTag = firstUrl
+      ? `<img class="photo-card-img" src="${esc(firstUrl)}" alt="" loading="lazy">`
+      : `<div class="photo-card-placeholder"><svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#b8cce8" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="m21 15-5-5L5 21"/></svg></div>`;
+    const title = e.type==='In-Centre'  ? `${e.name||''} · ${e.lesson||''}`
+                : e.type==='Pre-School' ? `${e.center||''} · ${e.name||''} · ${e.lesson||''}`
+                : e.type==='INT'        ? `${e.school||''}`
+                : `${e.activity||'OST Activity'}`;
+    const tags = [
+      `<span class="tag tag-type">${esc(e.type)}</span>`,
+      e.center ? `<span class="tag tag-center">${esc(e.center)}</span>` : '',
+      e.school  ? `<span class="tag tag-school">${esc(e.school)}</span>` : '',
+      e.level   ? `<span class="tag tag-level">${esc(e.level)}</span>` : '',
+    ].filter(Boolean).join('');
+    const photoCount = e.fileUrls?.length || 0;
+    return `<div class="photo-card" onclick="openLightbox(${idx})">
+      <div class="photo-card-img-wrap">
+        ${imgTag}
+        <div class="photo-card-type-badge">${esc(e.type)}</div>
+        <button class="photo-card-edit-btn" onclick="event.stopPropagation();openEditModal(${idx})" title="Edit">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+        </button>
+      </div>
+      <div class="photo-card-body">
+        <div class="photo-card-tags">${tags}</div>
+        <div class="photo-card-title">${esc(title)}</div>
+        ${e.comments?`<div class="photo-card-meta">${esc(e.comments)}</div>`:''}
+        <div class="photo-card-foot">
+          <span>${esc(e.month||'')} ${esc(e.year||'')}</span>
+          <span>${photoCount} photo${photoCount!==1?'s':''}</span>
+        </div>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+// ═══════════════════════════════════
+// LIGHTBOX
+// ═══════════════════════════════════
+let filteredList = [];
+function openLightbox(idx) {
+  const t = document.getElementById('f-type').value;
+  const c = document.getElementById('f-center').value;
+  const l = document.getElementById('f-level').value;
+  filteredList = allEntries.filter(e => {
+    if (state.month && e.month !== state.month) return false;
+    if (t && e.type !== t) return false;
+    if (c && e.center !== c) return false;
+    if (l && e.level !== l) return false;
+    return true;
+  });
+  lbEntry = filteredList[idx];
+  if (!lbEntry) return;
+  const url = lbEntry.fileUrls?.[0] || '';
+  document.getElementById('lb-img').src = url;
+  document.getElementById('lb-title').textContent = getTitleForEntry(lbEntry);
+  document.getElementById('lb-tags').innerHTML = getTagsForEntry(lbEntry);
+  document.getElementById('lb-comment').textContent = lbEntry.comments || '';
+  document.getElementById('lightbox').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+function closeLightbox() {
+  document.getElementById('lightbox').classList.remove('open');
+  document.body.style.overflow = '';
+}
+function closeLB(e) { if(e.target===document.getElementById('lightbox')) closeLightbox(); }
+function copyUrl() {
+  const url = document.getElementById('lb-img').src;
+  navigator.clipboard.writeText(url).then(() => alert('URL copied!'));
+}
+function openInNew() { window.open(document.getElementById('lb-img').src, '_blank'); }
+
+function getTitleForEntry(e) {
+  if (e.type==='In-Centre')  return [e.name, e.lesson, e.level].filter(Boolean).join(' · ');
+  if (e.type==='Pre-School') return [e.center, e.name, e.lesson, e.level].filter(Boolean).join(' · ');
+  if (e.type==='INT')        return e.school || 'INT';
+  return e.activity || 'OST Activity';
+}
+function getTagsForEntry(e) {
+  return [
+    `<span class="lb-tag">${esc(e.type)}</span>`,
+    e.center ? `<span class="lb-tag">${esc(e.center)}</span>` : '',
+    e.school  ? `<span class="lb-tag">${esc(e.school)}</span>` : '',
+    e.level   ? `<span class="lb-tag">${esc(e.level)}</span>` : '',
+    e.month   ? `<span class="lb-tag">${esc(e.month)} ${esc(e.year)}</span>` : '',
+  ].filter(Boolean).join('');
+}
+
+// ═══════════════════════════════════
+// EDIT MODAL
+// ═══════════════════════════════════
+function openEditModal(idx) {
+  const t = document.getElementById('f-type').value;
+  const c = document.getElementById('f-center').value;
+  const l = document.getElementById('f-level').value;
+  const fl = allEntries.filter(e => {
+    if (state.month && e.month !== state.month) return false;
+    if (t && e.type !== t) return false;
+    if (c && e.center !== c) return false;
+    if (l && e.level !== l) return false;
+    return true;
+  });
+  currentEntry = fl[idx];
+  if (!currentEntry) return;
+  const e = currentEntry;
+  let html = `<div class="form-grid">`;
+
+  if (e.type === 'In-Centre') {
+    html += field('NAME','ed-name','text',e.name)+field('LESSON NUMBER','ed-lesson','text',e.lesson)+selField('LEVEL','ed-level',e.level)+textareaField('COMMENTS','ed-comments',e.comments);
+  } else if (e.type === 'Pre-School') {
+    html += centerSel(e.center)+field('NAME','ed-name','text',e.name)+field('LESSON NUMBER','ed-lesson','text',e.lesson)+selField('LEVEL','ed-level',e.level)+textareaField('COMMENTS','ed-comments',e.comments);
+  } else if (e.type === 'INT') {
+    html += schoolSel(e.school);
+  } else if (e.type === 'OST') {
+    html += field('ACTIVITY NAME','ed-activity','text',e.activity,'full');
+  }
+  html += `</div>`;
+  document.getElementById('edit-modal-body').innerHTML = html;
+  document.getElementById('edit-modal').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function field(label,id,type,val,cls='') {
+  return `<div class="ff ${cls}"><label class="ff-label">${label}</label><input class="ff-input" id="${id}" type="${type}" value="${esc(val||'')}"></div>`;
+}
+function textareaField(label,id,val) {
+  return `<div class="ff full"><label class="ff-label">${label}</label><textarea class="ff-textarea" id="${id}">${esc(val||'')}</textarea></div>`;
+}
+function selField(label,id,val) {
+  const opts = ['Level 1','Level 2','Level 3','Level 4','Level 5','Level 6','Level 7','Level 8'];
+  return `<div class="ff"><label class="ff-label">${label}</label><select class="ff-select" id="${id}">${opts.map(o=>`<option ${o===val?'selected':''}>${o}</option>`).join('')}</select></div>`;
+}
+function centerSel(val) {
+  const opts = ['TPY','BDM','CBP','FPL'];
+  return `<div class="ff"><label class="ff-label">CENTER</label><select class="ff-select" id="ed-center">${opts.map(o=>`<option ${o===val?'selected':''}>${o}</option>`).join('')}</select></div>`;
+}
+function schoolSel(val) {
+  const opts = ['SJII','OWIS@Punggol','OWIS@Nanyang','XCL','AIS'];
+  return `<div class="ff full"><label class="ff-label">SCHOOL</label><select class="ff-select" id="ed-school">${opts.map(o=>`<option ${o===val?'selected':''}>${o}</option>`).join('')}</select></div>`;
+}
+
+function closeEditModal() {
+  document.getElementById('edit-modal').classList.remove('open');
+  document.body.style.overflow = '';
+  currentEntry = null;
+}
+
+async function saveEdit() {
+  if (!currentEntry) return;
+  const e = currentEntry;
+  const updates = {};
+  const g = id => { try { return document.getElementById(id)?.value?.trim()||''; } catch(_){return '';} };
+
+  if (e.type==='In-Centre')  { updates.name=g('ed-name'); updates.lesson=g('ed-lesson'); updates.level=g('ed-level'); updates.comments=g('ed-comments'); }
+  else if (e.type==='Pre-School') { updates.center=g('ed-center'); updates.name=g('ed-name'); updates.lesson=g('ed-lesson'); updates.level=g('ed-level'); updates.comments=g('ed-comments'); }
+  else if (e.type==='INT')   { updates.school=g('ed-school'); }
+  else if (e.type==='OST')   { updates.activity=g('ed-activity'); }
+
+  Object.assign(e, updates);
+  // Update local list
+  const li = allEntries.findIndex(x=>x.id===e.id);
+  if (li>=0) allEntries[li] = e;
+  applyFilters();
+  closeEditModal();
+
+  // Sync to backend
+  if (SCRIPT_URL) {
+    try {
+      await fetch(SCRIPT_URL, { method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({action:'update', id:e.id, ...updates}) });
+    } catch(_) {}
+  }
+}
+
+// ═══════════════════════════════════
+// SETUP MODAL
+// ═══════════════════════════════════
+function openSetupModal() {
+  document.getElementById('setup-url').value = SCRIPT_URL;
+  document.getElementById('setup-modal').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+function closeSetupModal() {
+  document.getElementById('setup-modal').classList.remove('open');
+  document.body.style.overflow = '';
+}
+function saveSetup() {
+  const url = document.getElementById('setup-url').value.trim();
+  if (!url.startsWith('https://script.google.com')) {
+    showAlert('setup-alert','err','Please enter a valid Google Apps Script URL.');
+    return;
+  }
+  SCRIPT_URL = url;
+  localStorage.setItem('fra_url', url);
+  document.getElementById('setup-banner').classList.add('hidden');
+  showAlert('setup-alert','ok','✓ Connected! The website is now linked to your Google backend.');
+  setTimeout(closeSetupModal, 2000);
+}
+async function testSetup() {
+  const url = document.getElementById('setup-url').value.trim();
+  if (!url) { showAlert('setup-alert','err','Enter a URL first.'); return; }
+  showAlert('setup-alert','warn','Testing connection…');
+  try {
+    const res = await fetch(`${url}?action=list&year=2026`);
+    const d = await res.json();
+    if (Array.isArray(d)) showAlert('setup-alert','ok','✓ Connection successful! Script is working correctly.');
+    else showAlert('setup-alert','err','Script returned unexpected data. Check your Apps Script code.');
+  } catch(e) {
+    showAlert('setup-alert','err','Connection failed. Check the URL and deployment settings.');
+  }
+}
+
+// ═══════════════════════════════════
+// HELPERS
+// ═══════════════════════════════════
+function showAlert(id, type, msg) {
+  const el = document.getElementById(id);
+  el.textContent = msg;
+  el.className = `alert ${type}`;
+}
+function esc(s) {
+  return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+// ESC key
+document.addEventListener('keydown', e => {
+  if (e.key==='Escape') {
+    closeLightbox();
+    closeEditModal();
+    closeSetupModal();
+  }
+});
+
+// Init check
+if (SCRIPT_URL) document.getElementById('setup-banner')?.classList.add('hidden');
+</script>
+</body>
+</html>
