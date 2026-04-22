@@ -600,8 +600,8 @@ button,input,select,textarea{font-family:var(--font-b)}
         </div>
         <div class="form-grid">
           <div class="ff">
-            <label class="ff-label">TEACHER NAME <span class="ff-req">*</span></label>
-            <input class="ff-input" id="ic-name" type="text" placeholder="e.g. Ms Sarah">
+            <label class="ff-label">STUDENT NAME <span class="ff-req">*</span></label>
+            <input class="ff-input" id="ic-name" type="text" placeholder="e.g. John Smith">
           </div>
           <div class="ff">
             <label class="ff-label">LESSON NUMBER <span class="ff-req">*</span></label>
@@ -638,8 +638,8 @@ button,input,select,textarea{font-family:var(--font-b)}
             </select>
           </div>
           <div class="ff">
-            <label class="ff-label">TEACHER NAME <span class="ff-req">*</span></label>
-            <input class="ff-input" id="ps-name" type="text" placeholder="e.g. Ms Sarah">
+            <label class="ff-label">STUDENT NAME <span class="ff-req">*</span></label>
+            <input class="ff-input" id="ps-name" type="text" placeholder="e.g. John Smith">
           </div>
           <div class="ff">
             <label class="ff-label">LESSON NUMBER <span class="ff-req">*</span></label>
@@ -887,7 +887,7 @@ function res(d){return ContentService.createTextOutput(JSON.stringify(d)).setMim
 // CONFIG & STATE
 // ═══════════════════════════════════
 const CREDS = { user:'admin', pass:'fra2026' };
-let SCRIPT_URL = localStorage.getItem('fra_url') || '';
+let SCRIPT_URL = localStorage.getItem('fra_url') || 'https://script.google.com/macros/s/AKfycbyqHHnZIp83zvKUqjCHxxi5rosAsPTz78XC44j69y1-G0vS68YDJIKkiUzc-M34l79cBQ/exec';
 
 const YEARS  = ['2026','2027','2028','2029','2030'];
 const MONTHS = ['January','February','March','April','May','June','July','August','September','October','November','December'];
@@ -1428,7 +1428,7 @@ document.addEventListener('keydown', e => {
 });
 
 // Init check
-if (SCRIPT_URL) document.getElementById('setup-banner')?.classList.add('hidden');
+document.getElementById('setup-banner')?.classList.add('hidden');
 </script>
 </body>
 </html>
