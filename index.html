@@ -306,10 +306,10 @@ button,input,select,textarea{font-family:var(--font-b)}
 .prog-fill{height:100%;width:0%;background:var(--brand);transition:width .3s ease;border-radius:2px}
 .prog-text{font-family:var(--font-m);font-size:11px;color:var(--ink3);margin-top:7px}
 
-.alert{padding:12px 16px;border-radius:var(--r);font-size:13px;margin-top:14px;display:none;line-height:1.5}
-.alert.ok{display:block;background:#f0fdf4;border:1px solid #bbf7d0;color:#166534}
-.alert.err{display:block;background:#fef2f2;border:1px solid #fecaca;color:#991b1b}
-.alert.warn{display:block;background:#fffbeb;border:1px solid #fde68a;color:#92400e}
+.alert{padding:14px 18px;border-radius:var(--r);font-size:14px;margin-top:16px;display:none;line-height:1.6;font-weight:500;animation:fadeUp .3s ease}
+.alert.ok{display:block;background:#f0fdf4;border:1.5px solid #86efac;color:#166534}
+.alert.err{display:block;background:#fef2f2;border:1.5px solid #fca5a5;color:#991b1b}
+.alert.warn{display:block;background:#fffbeb;border:1.5px solid #fde68a;color:#92400e}
 
 /* ════════ LIGHTBOX ════════ */
 .lightbox{
@@ -816,8 +816,19 @@ function handleUpload(p) {
   var ss = SpreadsheetApp.getActiveSpreadsheet().getSheetByName(SHEET);
   var folder = DriveApp.getFolderById(DRIVE_FOLDER);
   var urls = [], ids = [];
-  (p.files||[]).forEach(function(f){
-    var blob = Utilities.newBlob(Utilities.base64Decode(f.data), f.mime, f.name);
+  (p.files||[]).forEach(function(f, idx){
+    // Generate meaningful filename from form data
+    var parts = [p.year, p.month, p.type];
+    if (p.center) parts.push(p.center);
+    if (p.school) parts.push(p.school);
+    if (p.name) parts.push(p.name.replace(/\s+/g,'_'));
+    if (p.lesson) parts.push(p.lesson.replace(/\s+/g,'_'));
+    if (p.level) parts.push(p.level.replace(/\s+/g,'_'));
+    if (p.activity) parts.push(p.activity.replace(/\s+/g,'_').substring(0,20));
+    var ext = f.mime.split('/')[1] || 'jpg';
+    if (ext === 'jpeg') ext = 'jpg';
+    var filename = parts.join('_') + (p.files.length > 1 ? '_' + (idx+1) : '') + '.' + ext;
+    var blob = Utilities.newBlob(Utilities.base64Decode(f.data), f.mime, filename);
     var file = folder.createFile(blob);
     file.setSharing(DriveApp.Access.ANYONE_WITH_LINK, DriveApp.Permission.VIEW);
     ids.push(file.getId());
@@ -1006,13 +1017,21 @@ function addFiles(files) {
 
 function renderPreviews() {
   const strip = document.getElementById('preview-strip');
+  if (selectedFiles.length === 0) {
+    strip.innerHTML = '';
+    return;
+  }
   strip.innerHTML = selectedFiles.map((f,i) => {
     const url = URL.createObjectURL(f);
     return `<div class="prev-item">
-      <img class="prev-img" src="${url}" alt="">
+      <img class="prev-img" src="${url}" alt="${f.name}" onerror="this.style.background='#ccc'">
       <div class="prev-rm" onclick="removeFile(${i})">✕</div>
+      <div style="font-size:9px;text-align:center;overflow:hidden;white-space:nowrap;text-overflow:ellipsis;width:82px;color:#666;margin-top:2px">${f.name}</div>
     </div>`;
   }).join('');
+  // Show count badge
+  const countMsg = selectedFiles.length + ' photo' + (selectedFiles.length>1?'s':'') + ' selected';
+  strip.insertAdjacentHTML('beforeend', '<div style="display:flex;align-items:center;font-size:12px;color:var(--ink2);padding:4px 8px;background:var(--accent-light);border-radius:6px;height:fit-content">' + countMsg + '</div>');
 }
 function removeFile(i) {
   selectedFiles.splice(i, 1);
@@ -1027,13 +1046,13 @@ async function submitUpload() {
   alert.className = 'alert'; alert.style.display = 'none';
 
   // Validate type
-  if (!currentType) return showAlert('upload-alert','warn','⚠ Please select a type (In-Centre / Pre-School / INT / OST).');
+  if (!currentType) return showAlert('upload-alert','warn','⚠ Please select a <strong>Type</strong> first: In-Centre, Pre-School, INT, or OST.');
   
   // Validate year and month
   const year  = document.getElementById('u-year').value;
   const month = document.getElementById('u-month').value;
-  if (!year) return showAlert('upload-alert','err','❌ Please select a year.');
-  if (!month) return showAlert('upload-alert','err','❌ Please select a month.');
+  if (!year) return showAlert('upload-alert','err','❌ Please select a <strong>Year</strong>.');
+  if (!month) return showAlert('upload-alert','err','❌ Please select a <strong>Month</strong>.');
 
   let payload = { action:'upload', year, month, type:currentType };
 
@@ -1041,19 +1060,19 @@ async function submitUpload() {
     const name = document.getElementById('ic-name').value.trim();
     const lesson = document.getElementById('ic-lesson').value.trim();
     const level = document.getElementById('ic-level').value;
-    if (!name) return showAlert('upload-alert','err','❌ Missing: Student Name is required.');
-    if (!lesson) return showAlert('upload-alert','err','❌ Missing: Lesson Number is required.');
-    if (!level) return showAlert('upload-alert','err','❌ Missing: Level is required.');
+    if (!name) return showAlert('upload-alert','err','❌ <strong>Student Name</strong> is required. Please fill it in.');
+    if (!lesson) return showAlert('upload-alert','err','❌ <strong>Lesson Number</strong> is required. Please fill it in.');
+    if (!level) return showAlert('upload-alert','err','❌ <strong>Level</strong> is required. Please select a level.');
     payload = {...payload, name, lesson, level, comments:document.getElementById('ic-comments').value.trim()};
   } else if (currentType === 'Pre-School') {
     const center = document.getElementById('ps-center').value;
     const name = document.getElementById('ps-name').value.trim();
     const lesson = document.getElementById('ps-lesson').value.trim();
     const level = document.getElementById('ps-level').value;
-    if (!center) return showAlert('upload-alert','err','❌ Missing: Center is required.');
-    if (!name) return showAlert('upload-alert','err','❌ Missing: Student Name is required.');
-    if (!lesson) return showAlert('upload-alert','err','❌ Missing: Lesson Number is required.');
-    if (!level) return showAlert('upload-alert','err','❌ Missing: Level is required.');
+    if (!center) return showAlert('upload-alert','err','❌ <strong>Center</strong> is required. Please select TPY / BDM / CBP / FPL.');
+    if (!name) return showAlert('upload-alert','err','❌ <strong>Student Name</strong> is required. Please fill it in.');
+    if (!lesson) return showAlert('upload-alert','err','❌ <strong>Lesson Number</strong> is required. Please fill it in.');
+    if (!level) return showAlert('upload-alert','err','❌ <strong>Level</strong> is required. Please select a level.');
     payload = {...payload, center, name, lesson, level, comments:document.getElementById('ps-comments').value.trim()};
   } else if (currentType === 'INT') {
     const school = document.getElementById('int-school').value;
@@ -1065,7 +1084,7 @@ async function submitUpload() {
     payload = {...payload, activity};
   }
 
-  if (selectedFiles.length === 0) return showAlert('upload-alert','err','❌ Missing: Please attach at least one photo.');
+  if (selectedFiles.length === 0) return showAlert('upload-alert','err','❌ Please <strong>attach at least one photo</strong> before uploading.');
 
   if (!SCRIPT_URL) {
     // Demo mode — local only
@@ -1081,6 +1100,7 @@ async function submitUpload() {
 
   // Real upload
   setUploading(true);
+  showAlert('upload-alert','warn','⏳ Uploading photos to Google Drive, please wait…');
   const prog = document.getElementById('prog-wrap');
   const bar = document.getElementById('prog-fill');
   const txt = document.getElementById('prog-text');
@@ -1092,7 +1112,7 @@ async function submitUpload() {
       txt.textContent = `Reading photo ${i+1} of ${selectedFiles.length}…`;
       bar.style.width = `${Math.round((i/selectedFiles.length)*50)}%`;
       const b64 = await toBase64(selectedFiles[i]);
-      filePayloads.push({ name:selectedFiles[i].name, mime:selectedFiles[i].type, data:b64 });
+      filePayloads.push({ name:selectedFiles[i].name, mime:selectedFiles[i].type, data:b64, index:i });
     }
     txt.textContent = 'Uploading to Google Drive…';
     bar.style.width = '70%';
@@ -1416,8 +1436,9 @@ async function testSetup() {
 // ═══════════════════════════════════
 function showAlert(id, type, msg) {
   const el = document.getElementById(id);
-  el.textContent = msg;
+  el.innerHTML = msg;
   el.className = `alert ${type}`;
+  setTimeout(() => el.scrollIntoView({behavior:'smooth', block:'nearest'}), 50);
 }
 function esc(s) {
   return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
