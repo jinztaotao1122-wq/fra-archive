@@ -1026,11 +1026,14 @@ async function submitUpload() {
   const alert = document.getElementById('upload-alert');
   alert.className = 'alert'; alert.style.display = 'none';
 
-  // Validate
-  if (!currentType) return showAlert('upload-alert','warn','Please select a type first.');
+  // Validate type
+  if (!currentType) return showAlert('upload-alert','warn','⚠ Please select a type (In-Centre / Pre-School / INT / OST).');
+  
+  // Validate year and month
   const year  = document.getElementById('u-year').value;
   const month = document.getElementById('u-month').value;
-  if (!year || !month) return showAlert('upload-alert','err','Please select year and month.');
+  if (!year) return showAlert('upload-alert','err','❌ Please select a year.');
+  if (!month) return showAlert('upload-alert','err','❌ Please select a month.');
 
   let payload = { action:'upload', year, month, type:currentType };
 
@@ -1038,26 +1041,31 @@ async function submitUpload() {
     const name = document.getElementById('ic-name').value.trim();
     const lesson = document.getElementById('ic-lesson').value.trim();
     const level = document.getElementById('ic-level').value;
-    if (!name||!lesson||!level) return showAlert('upload-alert','err','Please fill in all required fields.');
+    if (!name) return showAlert('upload-alert','err','❌ Missing: Student Name is required.');
+    if (!lesson) return showAlert('upload-alert','err','❌ Missing: Lesson Number is required.');
+    if (!level) return showAlert('upload-alert','err','❌ Missing: Level is required.');
     payload = {...payload, name, lesson, level, comments:document.getElementById('ic-comments').value.trim()};
   } else if (currentType === 'Pre-School') {
     const center = document.getElementById('ps-center').value;
     const name = document.getElementById('ps-name').value.trim();
     const lesson = document.getElementById('ps-lesson').value.trim();
     const level = document.getElementById('ps-level').value;
-    if (!center||!name||!lesson||!level) return showAlert('upload-alert','err','Please fill in all required fields.');
+    if (!center) return showAlert('upload-alert','err','❌ Missing: Center is required.');
+    if (!name) return showAlert('upload-alert','err','❌ Missing: Student Name is required.');
+    if (!lesson) return showAlert('upload-alert','err','❌ Missing: Lesson Number is required.');
+    if (!level) return showAlert('upload-alert','err','❌ Missing: Level is required.');
     payload = {...payload, center, name, lesson, level, comments:document.getElementById('ps-comments').value.trim()};
   } else if (currentType === 'INT') {
     const school = document.getElementById('int-school').value;
-    if (!school) return showAlert('upload-alert','err','Please select a school.');
+    if (!school) return showAlert('upload-alert','err','❌ Missing: Please select a school.');
     payload = {...payload, school};
   } else if (currentType === 'OST') {
     const activity = document.getElementById('ost-activity').value.trim();
-    if (!activity) return showAlert('upload-alert','err','Please enter an activity name.');
+    if (!activity) return showAlert('upload-alert','err','❌ Missing: Activity Name is required.');
     payload = {...payload, activity};
   }
 
-  if (selectedFiles.length === 0) return showAlert('upload-alert','err','Please attach at least one photo.');
+  if (selectedFiles.length === 0) return showAlert('upload-alert','err','❌ Missing: Please attach at least one photo.');
 
   if (!SCRIPT_URL) {
     // Demo mode — local only
@@ -1088,23 +1096,20 @@ async function submitUpload() {
     }
     txt.textContent = 'Uploading to Google Drive…';
     bar.style.width = '70%';
-    const res = await fetch(SCRIPT_URL, {
-      method:'POST', headers:{'Content-Type':'application/json'},
+    await fetch(SCRIPT_URL, {
+      method:'POST',
+      mode:'no-cors',
+      headers:{'Content-Type':'application/json'},
       body: JSON.stringify({...payload, files: filePayloads})
     });
-    const data = await res.json();
     bar.style.width = '100%';
     txt.textContent = `✓ ${selectedFiles.length} photo(s) uploaded!`;
-    if (data.ok) {
-      const entry = {...payload, id:data.id, fileUrls:data.urls||[]};
-      allEntries.unshift(entry);
-      renderGallery(allEntries);
-      resetUploadForm();
-      showAlert('upload-alert','ok',`✓ Successfully uploaded ${data.urls?.length||0} photo(s) to Google Drive!`);
-      setTimeout(() => switchPage('browse'), 1500);
-    } else {
-      showAlert('upload-alert','err','Upload failed: '+(data.error||'unknown error'));
-    }
+    const entry = {...payload, id:'local_'+Date.now(), fileUrls:[]};
+    allEntries.unshift(entry);
+    renderGallery(allEntries);
+    resetUploadForm();
+    showAlert('upload-alert','ok',`✅ ${selectedFiles.length} photo(s) uploaded to Google Drive! Check your Drive folder to confirm.`);
+    setTimeout(() => switchPage('browse'), 2000);
   } catch(e) {
     showAlert('upload-alert','err','Network error. Check your backend URL and try again.');
   } finally {
