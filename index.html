@@ -8,199 +8,100 @@
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 :root{
-  --brand:#1a4a8a;
-  --brand-dark:#112f5c;
-  --brand-deeper:#0a1e3d;
-  --brand-mid:#2260ab;
-  --brand-light:#2d78d6;
-  --brand-pale:#dbeafe;
-  --brand-xpale:#eff6ff;
-  --accent:#f59e0b;
-  --accent-light:#fef3c7;
-  --bg:#eef3fb;
-  --surface:#ffffff;
-  --surface2:#f5f8ff;
-  --border:#ccd9f0;
-  --border2:#a8c0e0;
-  --ink:#0d1e35;
-  --ink2:#2a4268;
-  --ink3:#5a7aaa;
-  --ink4:#8faacb;
-  --danger:#dc2626;
-  --success:#16a34a;
-  --warn:#d97706;
-  --font-d:'Syne',sans-serif;
-  --font-b:'Inter',sans-serif;
-  --font-m:'JetBrains Mono',monospace;
+  --brand:#1a4a8a;--brand-dark:#112f5c;--brand-deeper:#0a1e3d;--brand-mid:#2260ab;
+  --brand-light:#2d78d6;--brand-pale:#dbeafe;--brand-xpale:#eff6ff;
+  --accent:#f59e0b;--accent-light:#fef3c7;--bg:#eef3fb;--surface:#ffffff;
+  --surface2:#f5f8ff;--border:#ccd9f0;--border2:#a8c0e0;
+  --ink:#0d1e35;--ink2:#2a4268;--ink3:#5a7aaa;--ink4:#8faacb;
+  --danger:#dc2626;--success:#16a34a;--warn:#d97706;
+  --font-d:'Syne',sans-serif;--font-b:'Inter',sans-serif;--font-m:'JetBrains Mono',monospace;
   --r:8px;--r2:12px;--r3:18px;
   --sh:0 1px 4px rgba(26,74,138,0.08),0 4px 20px rgba(26,74,138,0.07);
-  --sh2:0 8px 40px rgba(26,74,138,0.18);
-  --t:0.18s ease;
+  --sh2:0 8px 40px rgba(26,74,138,0.18);--t:0.18s ease;
 }
 html{scroll-behavior:smooth}
 body{background:var(--bg);color:var(--ink);font-family:var(--font-b);font-size:14px;line-height:1.55;min-height:100vh}
 button,input,select,textarea{font-family:var(--font-b)}
 .hidden{display:none!important}
-.flex{display:flex;align-items:center}
 
-/* ════════ LOGIN ════════ */
-#login-screen{
-  position:fixed;inset:0;
-  background:linear-gradient(140deg,var(--brand-deeper) 0%,var(--brand) 60%,var(--brand-mid) 100%);
-  display:flex;align-items:center;justify-content:center;z-index:1000;
-  transition:opacity 0.4s;
-}
+/* LOGIN */
+#login-screen{position:fixed;inset:0;background:linear-gradient(140deg,var(--brand-deeper) 0%,var(--brand) 60%,var(--brand-mid) 100%);display:flex;align-items:center;justify-content:center;z-index:1000;transition:opacity 0.4s}
 #login-screen.out{opacity:0;pointer-events:none}
 .login-wrap{width:100%;max-width:400px;padding:20px}
 .login-logo-row{display:flex;align-items:center;justify-content:center;gap:14px;margin-bottom:32px}
-.login-logo-box{
-  width:56px;height:56px;background:var(--accent);border-radius:12px;
-  display:flex;align-items:center;justify-content:center;
-  box-shadow:0 6px 20px rgba(245,158,11,0.45);flex-shrink:0;
-}
+.login-logo-box{width:56px;height:56px;background:var(--accent);border-radius:12px;display:flex;align-items:center;justify-content:center;box-shadow:0 6px 20px rgba(245,158,11,0.45)}
 .login-logo-box span{font-family:var(--font-d);font-size:22px;font-weight:800;color:#fff}
-.login-logo-text .t1{font-family:var(--font-d);font-size:22px;font-weight:800;color:#fff;letter-spacing:1px}
-.login-logo-text .t2{font-family:var(--font-m);font-size:10px;color:rgba(255,255,255,0.45);letter-spacing:2px;margin-top:1px}
+.t1{font-family:var(--font-d);font-size:22px;font-weight:800;color:#fff;letter-spacing:1px}
+.t2{font-family:var(--font-m);font-size:10px;color:rgba(255,255,255,0.45);letter-spacing:2px;margin-top:1px}
 .login-card{background:var(--surface);border-radius:var(--r3);padding:32px;box-shadow:var(--sh2)}
 .login-card-title{font-family:var(--font-d);font-size:20px;font-weight:700;color:var(--ink);margin-bottom:4px}
 .login-card-sub{font-size:13px;color:var(--ink3);margin-bottom:24px}
 .lbl{font-family:var(--font-m);font-size:10px;letter-spacing:1.5px;color:var(--ink2);display:block;margin-bottom:7px;font-weight:500}
-.inp{
-  width:100%;padding:11px 14px;border:1.5px solid var(--border);border-radius:var(--r);
-  background:var(--surface2);color:var(--ink);font-size:14px;outline:none;
-  transition:border-color var(--t),box-shadow var(--t);
-}
+.inp{width:100%;padding:11px 14px;border:1.5px solid var(--border);border-radius:var(--r);background:var(--surface2);color:var(--ink);font-size:14px;outline:none;transition:border-color var(--t),box-shadow var(--t)}
 .inp:focus{border-color:var(--brand);box-shadow:0 0 0 3px rgba(26,74,138,0.12)}
 .inp::placeholder{color:var(--ink4)}
 .lf{margin-bottom:16px}
-.login-btn{
-  width:100%;padding:13px;background:var(--brand);color:#fff;border:none;
-  border-radius:var(--r);font-family:var(--font-d);font-size:15px;font-weight:700;
-  letter-spacing:0.5px;cursor:pointer;transition:all var(--t);margin-top:4px;
-}
-.login-btn:hover{background:var(--brand-mid);transform:translateY(-1px);box-shadow:0 5px 18px rgba(26,74,138,0.35)}
+.login-btn{width:100%;padding:13px;background:var(--brand);color:#fff;border:none;border-radius:var(--r);font-family:var(--font-d);font-size:15px;font-weight:700;letter-spacing:0.5px;cursor:pointer;transition:all var(--t);margin-top:4px}
+.login-btn:hover{background:var(--brand-mid);transform:translateY(-1px)}
 .login-err{font-size:12px;color:var(--danger);margin-top:12px;padding:9px 12px;background:#fef2f2;border-radius:6px;border:1px solid #fecaca;display:none}
 .login-hint{font-family:var(--font-m);font-size:10px;color:var(--ink4);text-align:center;margin-top:16px;letter-spacing:0.5px}
 
-/* ════════ APP ════════ */
+/* APP */
 #app{display:none;flex-direction:column;min-height:100vh}
 #app.show{display:flex}
 
-/* ── TOPNAV ── */
-.topnav{
-  position:sticky;top:0;z-index:100;height:60px;
-  background:var(--brand-deeper);
-  border-bottom:1px solid rgba(255,255,255,0.08);
-  display:flex;align-items:center;padding:0 24px;gap:16px;
-}
+/* TOPNAV */
+.topnav{position:sticky;top:0;z-index:100;height:60px;background:var(--brand-deeper);border-bottom:1px solid rgba(255,255,255,0.08);display:flex;align-items:center;padding:0 24px;gap:16px}
 .nav-logo{display:flex;align-items:center;gap:10px;cursor:pointer;flex-shrink:0}
 .nav-logo-box{width:34px;height:34px;background:var(--accent);border-radius:8px;display:flex;align-items:center;justify-content:center}
 .nav-logo-box span{font-family:var(--font-d);font-size:14px;font-weight:800;color:#fff}
 .nav-brand{font-family:var(--font-d);font-size:16px;font-weight:700;color:#fff;letter-spacing:0.5px}
 .nav-divider{width:1px;height:28px;background:rgba(255,255,255,0.12);flex-shrink:0}
 .nav-tabs{display:flex;align-items:center;gap:2px;flex:1}
-.nav-tab{
-  padding:6px 16px;border-radius:6px;font-size:13px;font-weight:500;
-  color:rgba(255,255,255,0.5);cursor:pointer;border:none;background:transparent;
-  transition:all var(--t);white-space:nowrap;
-}
+.nav-tab{padding:6px 16px;border-radius:6px;font-size:13px;font-weight:500;color:rgba(255,255,255,0.5);cursor:pointer;border:none;background:transparent;transition:all var(--t);white-space:nowrap}
 .nav-tab:hover{color:rgba(255,255,255,0.85);background:rgba(255,255,255,0.07)}
 .nav-tab.active{color:#fff;background:rgba(255,255,255,0.13)}
 .nav-right{margin-left:auto;display:flex;align-items:center;gap:12px;flex-shrink:0}
 .nav-user{font-family:var(--font-m);font-size:10px;color:rgba(255,255,255,0.4);letter-spacing:1px}
-.nav-logout{
-  padding:5px 14px;border:1px solid rgba(255,255,255,0.2);border-radius:20px;
-  font-size:12px;color:rgba(255,255,255,0.55);cursor:pointer;background:transparent;
-  transition:all var(--t);
-}
+.nav-logout{padding:5px 14px;border:1px solid rgba(255,255,255,0.2);border-radius:20px;font-size:12px;color:rgba(255,255,255,0.55);cursor:pointer;background:transparent;transition:all var(--t)}
 .nav-logout:hover{border-color:rgba(255,255,255,0.5);color:#fff}
 
-/* ── PAGES ── */
+/* PAGES */
 .page{display:none;flex:1}
 .page.active{display:block;animation:fadeUp .25s ease}
 @keyframes fadeUp{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
 
-/* ════════ BROWSE PAGE ════════ */
-.browse-hero{
-  background:linear-gradient(120deg,var(--brand-deeper) 0%,var(--brand) 100%);
-  padding:44px 32px 36px;position:relative;overflow:hidden;
-}
-.browse-hero::before{
-  content:'';position:absolute;top:-60px;right:-60px;
-  width:300px;height:300px;border-radius:50%;
-  background:rgba(255,255,255,0.04);
-}
-.browse-hero::after{
-  content:'FRA';position:absolute;right:24px;bottom:-16px;
-  font-family:var(--font-d);font-size:120px;font-weight:800;
-  color:rgba(255,255,255,0.05);letter-spacing:-4px;pointer-events:none;
-}
+/* BROWSE */
+.browse-hero{background:linear-gradient(120deg,var(--brand-deeper) 0%,var(--brand) 100%);padding:44px 32px 36px;position:relative;overflow:hidden}
+.browse-hero::after{content:'FRA';position:absolute;right:24px;bottom:-16px;font-family:var(--font-d);font-size:120px;font-weight:800;color:rgba(255,255,255,0.05);letter-spacing:-4px;pointer-events:none}
 .hero-eyebrow{font-family:var(--font-m);font-size:10px;letter-spacing:3px;color:rgba(255,255,255,0.4);margin-bottom:10px}
 .hero-title{font-family:var(--font-d);font-size:clamp(28px,4vw,46px);font-weight:800;color:#fff;line-height:1.05;margin-bottom:6px}
 .hero-title em{font-style:normal;color:var(--accent)}
 .hero-sub{font-size:13px;color:rgba(255,255,255,0.45)}
-
-/* YEAR/MONTH PICKERS */
-.pick-bar{
-  background:var(--surface);border-bottom:1px solid var(--border);
-  padding:14px 32px;display:flex;align-items:center;gap:10px;flex-wrap:wrap;
-}
+.pick-bar{background:var(--surface);border-bottom:1px solid var(--border);padding:14px 32px;display:flex;align-items:center;gap:10px;flex-wrap:wrap}
 .pick-label{font-family:var(--font-m);font-size:10px;letter-spacing:1.5px;color:var(--ink3);white-space:nowrap}
 .pick-chips{display:flex;flex-wrap:wrap;gap:6px}
-.chip{
-  padding:5px 14px;border-radius:20px;font-size:12px;font-weight:500;
-  border:1.5px solid var(--border);background:transparent;color:var(--ink2);
-  cursor:pointer;transition:all var(--t);white-space:nowrap;
-}
+.chip{padding:5px 14px;border-radius:20px;font-size:12px;font-weight:500;border:1.5px solid var(--border);background:transparent;color:var(--ink2);cursor:pointer;transition:all var(--t);white-space:nowrap}
 .chip:hover{border-color:var(--brand);color:var(--brand)}
 .chip.active{background:var(--brand);border-color:var(--brand);color:#fff}
 .pick-sep{width:1px;height:24px;background:var(--border);flex-shrink:0}
-
-/* FILTER BAR */
-.filter-bar{
-  background:var(--surface2);border-bottom:1px solid var(--border);
-  padding:12px 32px;display:flex;align-items:center;gap:10px;flex-wrap:wrap;
-}
-.fsel{
-  padding:7px 12px;border:1.5px solid var(--border);border-radius:20px;
-  background:var(--surface);color:var(--ink);font-size:13px;outline:none;
-  cursor:pointer;transition:border-color var(--t);
-}
+.filter-bar{background:var(--surface2);border-bottom:1px solid var(--border);padding:12px 32px;display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.fsel{padding:7px 12px;border:1.5px solid var(--border);border-radius:20px;background:var(--surface);color:var(--ink);font-size:13px;outline:none;cursor:pointer;transition:border-color var(--t)}
 .fsel:focus{border-color:var(--brand)}
-.filter-clear{
-  padding:6px 14px;border:1.5px solid var(--border2);border-radius:20px;
-  background:transparent;color:var(--ink3);font-size:12px;cursor:pointer;
-  transition:all var(--t);margin-left:auto;
-}
+.filter-clear{padding:6px 14px;border:1.5px solid var(--border2);border-radius:20px;background:transparent;color:var(--ink3);font-size:12px;cursor:pointer;transition:all var(--t);margin-left:auto}
 .filter-clear:hover{border-color:var(--danger);color:var(--danger)}
-
-/* GALLERY */
 .gallery-wrap{padding:24px 32px 60px}
-.gallery-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:18px;flex-wrap:wrap;gap:10px}
-.gallery-count{font-family:var(--font-m);font-size:11px;color:var(--ink3);letter-spacing:1px}
+.gallery-count{font-family:var(--font-m);font-size:11px;color:var(--ink3);letter-spacing:1px;margin-bottom:18px}
 .gallery-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:18px}
-
-.photo-card{
-  background:var(--surface);border-radius:var(--r2);overflow:hidden;
-  box-shadow:var(--sh);transition:all var(--t);cursor:pointer;
-  border:1px solid var(--border);
-}
+.photo-card{background:var(--surface);border-radius:var(--r2);overflow:hidden;box-shadow:var(--sh);transition:all var(--t);cursor:pointer;border:1px solid var(--border)}
 .photo-card:hover{transform:translateY(-3px);box-shadow:var(--sh2);border-color:var(--brand-pale)}
-.photo-card-img-wrap{position:relative;overflow:hidden}
-.photo-card-img{width:100%;aspect-ratio:4/3;object-fit:cover;display:block;transition:transform 0.4s ease}
+.photo-card-img-wrap{position:relative;overflow:hidden;background:linear-gradient(135deg,var(--brand-xpale),#f8fbff);display:flex;align-items:center;justify-content:center}
+.photo-card-img{width:100%;aspect-ratio:4/3;object-fit:contain;display:block;transition:transform 0.4s ease;background:transparent;padding:10px}
 .photo-card:hover .photo-card-img{transform:scale(1.04)}
-.photo-card-placeholder{width:100%;aspect-ratio:4/3;background:linear-gradient(135deg,var(--brand-xpale),var(--brand-pale));display:flex;align-items:center;justify-content:center;color:var(--brand-pale)}
-.photo-card-type-badge{
-  position:absolute;top:10px;left:10px;
-  background:var(--brand);color:#fff;font-family:var(--font-m);
-  font-size:9px;letter-spacing:1px;padding:3px 8px;border-radius:4px;font-weight:500;
-}
-.photo-card-edit-btn{
-  position:absolute;top:10px;right:10px;
-  background:rgba(255,255,255,0.92);color:var(--brand);border:none;
-  width:30px;height:30px;border-radius:6px;display:flex;align-items:center;justify-content:center;
-  cursor:pointer;opacity:0;transition:opacity var(--t);box-shadow:var(--sh);
-}
+.photo-card-frame{width:100%;aspect-ratio:4/3;border:0;display:block;background:transparent;pointer-events:none}
+.photo-card-placeholder{width:100%;aspect-ratio:4/3;background:linear-gradient(135deg,var(--brand-xpale),var(--brand-pale));display:flex;align-items:center;justify-content:center}
+.photo-card-type-badge{position:absolute;top:10px;left:10px;background:var(--brand);color:#fff;font-family:var(--font-m);font-size:9px;letter-spacing:1px;padding:3px 8px;border-radius:4px;font-weight:500}
+.photo-card-edit-btn{position:absolute;top:10px;right:10px;background:rgba(255,255,255,0.92);color:var(--brand);border:none;width:30px;height:30px;border-radius:6px;display:flex;align-items:center;justify-content:center;cursor:pointer;opacity:0;transition:opacity var(--t);box-shadow:var(--sh)}
 .photo-card:hover .photo-card-edit-btn{opacity:1}
 .photo-card-body{padding:14px 16px 16px}
 .photo-card-tags{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:10px}
@@ -212,18 +113,15 @@ button,input,select,textarea{font-family:var(--font-b)}
 .photo-card-title{font-family:var(--font-d);font-size:15px;font-weight:700;color:var(--ink);margin-bottom:4px}
 .photo-card-meta{font-size:12px;color:var(--ink3);line-height:1.55;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
 .photo-card-foot{font-family:var(--font-m);font-size:10px;color:var(--ink4);margin-top:10px;padding-top:10px;border-top:1px solid var(--border);display:flex;justify-content:space-between}
-
 .empty-state{padding:80px 32px;text-align:center}
 .empty-icon{font-size:52px;margin-bottom:14px;opacity:0.25}
 .empty-title{font-family:var(--font-d);font-size:20px;font-weight:700;color:var(--ink2);margin-bottom:6px}
 .empty-sub{font-size:13px;color:var(--ink3)}
 
-/* ════════ UPLOAD PAGE ════════ */
+/* UPLOAD */
 .upload-page{max-width:780px;margin:0 auto;padding:40px 24px 80px}
-.upload-page-head{margin-bottom:28px}
 .upload-page-title{font-family:var(--font-d);font-size:26px;font-weight:800;color:var(--ink);margin-bottom:4px}
-.upload-page-sub{font-size:13px;color:var(--ink3)}
-
+.upload-page-sub{font-size:13px;color:var(--ink3);margin-bottom:28px}
 .form-card{background:var(--surface);border-radius:var(--r2);padding:26px 28px;box-shadow:var(--sh);margin-bottom:18px;border:1px solid var(--border)}
 .form-card-title{font-family:var(--font-d);font-size:13px;font-weight:700;color:var(--brand);letter-spacing:0.5px;margin-bottom:20px;padding-bottom:12px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:8px}
 .form-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
@@ -231,195 +129,118 @@ button,input,select,textarea{font-family:var(--font-b)}
 .ff.full{grid-column:1/-1}
 .ff-label{font-family:var(--font-m);font-size:10px;letter-spacing:1.5px;color:var(--ink2);font-weight:500}
 .ff-req{color:var(--danger)}
-.ff-input,.ff-select,.ff-textarea{
-  padding:10px 14px;border:1.5px solid var(--border);border-radius:var(--r);
-  background:var(--surface2);color:var(--ink);font-size:14px;outline:none;
-  transition:border-color var(--t),box-shadow var(--t);width:100%;
-}
+.ff-input,.ff-select,.ff-textarea{padding:10px 14px;border:1.5px solid var(--border);border-radius:var(--r);background:var(--surface2);color:var(--ink);font-size:14px;outline:none;transition:border-color var(--t),box-shadow var(--t);width:100%}
 .ff-input:focus,.ff-select:focus,.ff-textarea:focus{border-color:var(--brand);box-shadow:0 0 0 3px rgba(26,74,138,0.1)}
 .ff-input::placeholder,.ff-textarea::placeholder{color:var(--ink4)}
 .ff-textarea{resize:vertical;min-height:90px;line-height:1.6}
-
-/* TYPE SELECTOR */
 .type-selector{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:4px}
-.type-opt{
-  border:2px solid var(--border);border-radius:var(--r2);padding:14px 10px;
-  text-align:center;cursor:pointer;transition:all var(--t);
-}
+.type-opt{border:2px solid var(--border);border-radius:var(--r2);padding:14px 10px;text-align:center;cursor:pointer;transition:all var(--t)}
 .type-opt:hover{border-color:var(--brand-light);background:var(--brand-xpale)}
 .type-opt.selected{border-color:var(--brand);background:var(--brand-xpale)}
 .type-opt-icon{font-size:22px;margin-bottom:6px}
 .type-opt-label{font-family:var(--font-d);font-size:13px;font-weight:700;color:var(--ink2)}
 .type-opt.selected .type-opt-label{color:var(--brand)}
 .type-opt-sub{font-size:11px;color:var(--ink4);margin-top:2px}
-
-/* DYNAMIC FIELDS */
 .dyn-section{display:none;animation:fadeUp .2s ease}
 .dyn-section.show{display:block}
-
-/* DROP ZONE */
-.drop-zone{
-  border:2px dashed var(--border2);border-radius:var(--r2);
-  padding:36px 20px;text-align:center;cursor:pointer;
-  transition:all var(--t);position:relative;background:var(--surface2);
-}
+.drop-zone{border:2px dashed var(--border2);border-radius:var(--r2);padding:36px 20px;text-align:center;cursor:pointer;transition:all var(--t);position:relative;background:var(--surface2)}
 .drop-zone:hover,.drop-zone.drag-over{border-color:var(--brand);background:var(--brand-xpale)}
 .drop-zone input{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%}
-.drop-icon{
-  width:46px;height:46px;background:var(--surface);border-radius:10px;
-  box-shadow:var(--sh);display:flex;align-items:center;justify-content:center;
-  margin:0 auto 14px;color:var(--brand);
-}
+.drop-icon{width:46px;height:46px;background:var(--surface);border-radius:10px;box-shadow:var(--sh);display:flex;align-items:center;justify-content:center;margin:0 auto 14px;color:var(--brand)}
 .drop-title{font-family:var(--font-d);font-size:16px;font-weight:700;color:var(--ink);margin-bottom:4px}
 .drop-hint{font-size:12px;color:var(--ink3)}
-
-/* PREVIEW */
-.preview-strip{display:flex;flex-wrap:wrap;gap:10px;margin-top:16px}
-.prev-item{position:relative;width:82px}
-.prev-img{width:82px;height:82px;border-radius:8px;object-fit:cover;border:2px solid var(--border);display:block}
-.prev-rm{
-  position:absolute;top:-7px;right:-7px;width:20px;height:20px;
-  background:var(--danger);color:#fff;border-radius:50%;
-  display:flex;align-items:center;justify-content:center;
-  font-size:11px;font-weight:700;cursor:pointer;border:2px solid #fff;
-}
-
-/* SUBMIT */
+.preview-strip{display:flex;flex-wrap:wrap;gap:10px;margin-top:16px;align-items:flex-start}
+.prev-item{position:relative;width:90px;text-align:center}
+.prev-img{width:90px;height:90px;border-radius:8px;object-fit:cover;border:2px solid var(--border);display:block;background:var(--surface2)}
+.prev-rm{position:absolute;top:-7px;right:-7px;width:22px;height:22px;background:var(--danger);color:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;cursor:pointer;border:2px solid #fff;z-index:1}
+.prev-name{font-size:9px;color:var(--ink3);margin-top:3px;overflow:hidden;white-space:nowrap;text-overflow:ellipsis;max-width:90px}
+.preview-count{display:flex;align-items:center;padding:6px 12px;background:var(--brand-xpale);border:1.5px solid var(--brand-pale);border-radius:8px;font-size:12px;color:var(--brand);font-weight:600;height:fit-content;white-space:nowrap}
 .submit-row{display:flex;align-items:center;gap:18px}
-.btn-primary{
-  padding:12px 30px;background:var(--brand);color:#fff;border:none;
-  border-radius:var(--r);font-family:var(--font-d);font-size:15px;font-weight:700;
-  letter-spacing:0.3px;cursor:pointer;transition:all var(--t);display:flex;align-items:center;gap:10px;
-}
+.btn-primary{padding:12px 30px;background:var(--brand);color:#fff;border:none;border-radius:var(--r);font-family:var(--font-d);font-size:15px;font-weight:700;letter-spacing:0.3px;cursor:pointer;transition:all var(--t);display:flex;align-items:center;gap:10px}
 .btn-primary:hover{background:var(--brand-mid);transform:translateY(-1px);box-shadow:0 5px 18px rgba(26,74,138,0.3)}
 .btn-primary:disabled{opacity:0.6;pointer-events:none}
-.btn-secondary{
-  padding:10px 22px;background:transparent;color:var(--ink2);border:1.5px solid var(--border2);
-  border-radius:var(--r);font-size:14px;font-weight:500;cursor:pointer;transition:all var(--t);
-}
+.btn-secondary{padding:10px 22px;background:transparent;color:var(--ink2);border:1.5px solid var(--border2);border-radius:var(--r);font-size:14px;font-weight:500;cursor:pointer;transition:all var(--t)}
 .btn-secondary:hover{border-color:var(--brand);color:var(--brand)}
+.btn-danger{padding:10px 22px;background:#fff1f2;color:var(--danger);border:1.5px solid #fecdd3;border-radius:var(--r);font-size:14px;font-weight:600;cursor:pointer;transition:all var(--t)}
+.btn-danger:hover{background:#ffe4e6;border-color:#fda4af}
 .submit-note{font-size:12px;color:var(--ink3);line-height:1.6}
-
-/* PROGRESS */
+.backend-row{display:flex;gap:12px;align-items:flex-end;flex-wrap:wrap}
+.backend-row .ff{flex:1;min-width:280px}
+.backend-status{font-size:12px;color:var(--ink3);line-height:1.6;margin-top:12px}
+.backend-status strong{color:var(--ink2)}
+.backend-help{font-size:12px;color:var(--ink3);line-height:1.7;margin-top:10px}
+.backend-help a{color:var(--brand);font-weight:600;text-decoration:none}
+.backend-help a:hover{text-decoration:underline}
+.file-mode-note{margin-top:10px;padding:10px 12px;border-radius:8px;background:#fffbeb;border:1.5px solid #fde68a;color:#92400e;font-size:12px;line-height:1.7}
 .prog-wrap{margin-top:16px;display:none}
-.prog-bg{height:4px;background:var(--border);border-radius:2px;overflow:hidden}
-.prog-fill{height:100%;width:0%;background:var(--brand);transition:width .3s ease;border-radius:2px}
+.prog-bg{height:6px;background:var(--border);border-radius:3px;overflow:hidden}
+.prog-fill{height:100%;width:0%;background:var(--brand);transition:width .3s ease;border-radius:3px}
 .prog-text{font-family:var(--font-m);font-size:11px;color:var(--ink3);margin-top:7px}
 
-.alert{padding:14px 18px;border-radius:var(--r);font-size:14px;margin-top:16px;display:none;line-height:1.6;font-weight:500;animation:fadeUp .3s ease}
-.alert.ok{display:block;background:#f0fdf4;border:1.5px solid #86efac;color:#166534}
-.alert.err{display:block;background:#fef2f2;border:1.5px solid #fca5a5;color:#991b1b}
-.alert.warn{display:block;background:#fffbeb;border:1.5px solid #fde68a;color:#92400e}
-
-/* ════════ LIGHTBOX ════════ */
-.lightbox{
-  position:fixed;inset:0;background:rgba(8,18,36,0.94);z-index:500;
-  display:flex;align-items:center;justify-content:center;padding:20px;
-  opacity:0;pointer-events:none;transition:opacity .2s;
+/* ALERTS - very visible */
+.alert{
+  padding:14px 18px;border-radius:var(--r);font-size:14px;
+  margin-top:16px;display:none;line-height:1.6;font-weight:500;
+  animation:fadeUp .3s ease;
 }
+.alert.ok{display:flex;align-items:flex-start;gap:10px;background:#f0fdf4;border:2px solid #86efac;color:#166534}
+.alert.err{display:flex;align-items:flex-start;gap:10px;background:#fef2f2;border:2px solid #fca5a5;color:#991b1b}
+.alert.warn{display:flex;align-items:flex-start;gap:10px;background:#fffbeb;border:2px solid #fde68a;color:#92400e}
+.alert-icon{font-size:18px;flex-shrink:0;margin-top:1px}
+.alert-msg{flex:1}
+
+/* LIGHTBOX */
+.lightbox{position:fixed;inset:0;background:rgba(8,18,36,0.94);z-index:500;display:flex;align-items:center;justify-content:center;padding:20px;opacity:0;pointer-events:none;transition:opacity .2s}
 .lightbox.open{opacity:1;pointer-events:auto}
 .lb-inner{position:relative;max-width:860px;width:100%}
-.lb-img{width:100%;max-height:72vh;object-fit:contain;border-radius:10px;display:block}
+.lb-img{width:100%;max-height:72vh;object-fit:contain;border-radius:10px;display:block;background:#1a1a2e}
+.lb-frame{width:100%;height:min(72vh,640px);border:0;border-radius:10px;background:#1a1a2e;display:block}
 .lb-info{background:rgba(10,26,60,0.85);backdrop-filter:blur(8px);border-radius:0 0 10px 10px;padding:18px 22px}
 .lb-title{font-family:var(--font-d);font-size:17px;font-weight:700;color:#fff;margin-bottom:8px}
 .lb-tags{display:flex;flex-wrap:wrap;gap:7px;margin-bottom:8px}
-.lb-tag{font-family:var(--font-m);font-size:10px;letter-spacing:0.5px;color:rgba(255,255,255,0.55);background:rgba(255,255,255,0.1);padding:3px 9px;border-radius:4px}
+.lb-tag{font-family:var(--font-m);font-size:10px;color:rgba(255,255,255,0.55);background:rgba(255,255,255,0.1);padding:3px 9px;border-radius:4px}
 .lb-comment{font-size:13px;color:rgba(255,255,255,0.6);line-height:1.6}
 .lb-actions{display:flex;gap:10px;margin-top:14px}
-.lb-btn{
-  padding:7px 16px;background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.18);
-  border-radius:6px;color:#fff;font-size:12px;cursor:pointer;transition:all var(--t);
-}
+.lb-btn{padding:7px 16px;background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.18);border-radius:6px;color:#fff;font-size:12px;cursor:pointer;transition:all var(--t)}
 .lb-btn:hover{background:rgba(255,255,255,0.2)}
-.lb-close{
-  position:absolute;top:-14px;right:-14px;width:36px;height:36px;
-  background:var(--surface);border-radius:50%;display:flex;align-items:center;justify-content:center;
-  cursor:pointer;font-size:16px;color:var(--ink2);box-shadow:var(--sh);
-  transition:all var(--t);border:none;
-}
+.lb-btn-danger{background:rgba(220,38,38,0.18);border-color:rgba(252,165,165,0.45);color:#fecaca}
+.lb-btn-danger:hover{background:rgba(220,38,38,0.32);color:#fff}
+.lb-close{position:absolute;top:-14px;right:-14px;width:36px;height:36px;background:var(--surface);border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:16px;color:var(--ink2);box-shadow:var(--sh);transition:all var(--t);border:none}
 .lb-close:hover{background:var(--danger);color:#fff}
 
-/* ════════ EDIT MODAL ════════ */
-.modal-bg{
-  position:fixed;inset:0;background:rgba(8,18,36,0.6);z-index:400;
-  display:flex;align-items:center;justify-content:center;padding:20px;
-  opacity:0;pointer-events:none;transition:opacity .2s;backdrop-filter:blur(4px);
-}
+/* EDIT MODAL */
+.modal-bg{position:fixed;inset:0;background:rgba(8,18,36,0.6);z-index:400;display:flex;align-items:center;justify-content:center;padding:20px;opacity:0;pointer-events:none;transition:opacity .2s;backdrop-filter:blur(4px)}
 .modal-bg.open{opacity:1;pointer-events:auto}
-.modal-box{
-  background:var(--surface);border-radius:var(--r3);max-width:640px;width:100%;
-  max-height:90vh;overflow-y:auto;box-shadow:var(--sh2);
-  transform:scale(0.97);transition:transform .2s;
-}
+.modal-box{background:var(--surface);border-radius:var(--r3);max-width:640px;width:100%;max-height:90vh;overflow-y:auto;box-shadow:var(--sh2);transform:scale(0.97);transition:transform .2s}
 .modal-bg.open .modal-box{transform:scale(1)}
-.modal-head{
-  padding:22px 28px;border-bottom:1px solid var(--border);
-  display:flex;justify-content:space-between;align-items:center;
-  position:sticky;top:0;background:var(--surface);z-index:1;border-radius:var(--r3) var(--r3) 0 0;
-}
+.modal-head{padding:22px 28px;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;background:var(--surface);z-index:1;border-radius:var(--r3) var(--r3) 0 0}
 .modal-title{font-family:var(--font-d);font-size:18px;font-weight:800;color:var(--ink)}
-.modal-close-btn{
-  width:30px;height:30px;border:1.5px solid var(--border);border-radius:7px;
-  display:flex;align-items:center;justify-content:center;cursor:pointer;
-  color:var(--ink3);background:transparent;font-size:16px;transition:all var(--t);
-}
+.modal-close-btn{width:30px;height:30px;border:1.5px solid var(--border);border-radius:7px;display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--ink3);background:transparent;font-size:16px;transition:all var(--t)}
 .modal-close-btn:hover{border-color:var(--danger);color:var(--danger)}
 .modal-body{padding:28px}
 .modal-foot{padding:20px 28px;border-top:1px solid var(--border);display:flex;gap:12px;justify-content:flex-end;background:var(--surface2);border-radius:0 0 var(--r3) var(--r3)}
-
-/* ════════ SETUP BANNER ════════ */
-.setup-banner{
-  background:var(--accent-light);border-bottom:1px solid #fde68a;
-  padding:11px 32px;display:flex;align-items:center;gap:12px;
-}
-.setup-banner-txt{font-size:13px;color:#92400e;flex:1}
-.setup-banner-txt strong{color:#78350f}
-.setup-banner-btn{
-  padding:6px 18px;background:var(--warn);color:#fff;border:none;border-radius:6px;
-  font-size:12px;font-weight:600;cursor:pointer;white-space:nowrap;transition:all var(--t);
-}
-.setup-banner-btn:hover{background:#b45309}
-
-/* SETUP MODAL (reuses modal-bg/box) */
-.code-block{
-  background:var(--ink);color:#c8f04a;font-family:var(--font-m);font-size:11px;
-  padding:16px;border-radius:var(--r2);margin-top:10px;white-space:pre;overflow-x:auto;line-height:1.7;
-}
-.step-badge{display:inline-block;background:var(--brand);color:#fff;font-family:var(--font-m);font-size:10px;letter-spacing:1px;padding:3px 10px;border-radius:4px;margin-bottom:10px}
-.step-title{font-family:var(--font-d);font-size:15px;font-weight:700;color:var(--ink);margin-bottom:6px}
-.step-desc{font-size:13px;color:var(--ink2);line-height:1.7}
-.modal-step{margin-bottom:24px;padding-bottom:24px;border-bottom:1px solid var(--border)}
-.modal-step:last-child{border-bottom:none;margin-bottom:0}
 
 /* SPINNER */
 .spin{width:14px;height:14px;border:2px solid rgba(255,255,255,0.3);border-top-color:#fff;border-radius:50%;animation:rot .6s linear infinite;flex-shrink:0}
 @keyframes rot{to{transform:rotate(360deg)}}
 
-/* RESPONSIVE */
 @media(max-width:640px){
-  .topnav{padding:0 14px;gap:10px}
-  .nav-tabs{display:none}
-  .browse-hero{padding:28px 16px}
-  .pick-bar,.filter-bar{padding:12px 16px}
-  .gallery-wrap{padding:16px 16px 48px}
+  .topnav{padding:0 14px}.nav-tabs{display:none}
+  .browse-hero,.gallery-wrap,.pick-bar,.filter-bar{padding-left:16px;padding-right:16px}
   .gallery-grid{grid-template-columns:1fr 1fr;gap:12px}
-  .upload-page{padding:24px 14px 60px}
-  .form-card{padding:18px}
-  .form-grid{grid-template-columns:1fr}
-  .type-selector{grid-template-columns:1fr 1fr}
+  .upload-page{padding:24px 14px 60px}.form-card{padding:18px}
+  .form-grid{grid-template-columns:1fr}.type-selector{grid-template-columns:1fr 1fr}
 }
 </style>
 </head>
 <body>
 
-<!-- ══════════════════════════════════════════
-     LOGIN SCREEN
-══════════════════════════════════════════ -->
+<!-- LOGIN -->
 <div id="login-screen">
   <div class="login-wrap">
     <div class="login-logo-row">
       <div class="login-logo-box"><span>FRA</span></div>
-      <div class="login-logo-text">
+      <div>
         <div class="t1">FRA Archive</div>
         <div class="t2">CLASS PHOTO SYSTEM</div>
       </div>
@@ -427,34 +248,17 @@ button,input,select,textarea{font-family:var(--font-b)}
     <div class="login-card">
       <div class="login-card-title">Staff Login</div>
       <div class="login-card-sub">Internal use only — please sign in to continue</div>
-      <div class="lf">
-        <label class="lbl">USERNAME</label>
-        <input class="inp" id="l-user" type="text" placeholder="Enter username" autocomplete="username">
-      </div>
-      <div class="lf">
-        <label class="lbl">PASSWORD</label>
-        <input class="inp" id="l-pass" type="password" placeholder="Enter password" autocomplete="current-password">
-      </div>
+      <div class="lf"><label class="lbl">USERNAME</label><input class="inp" id="l-user" type="text" placeholder="Enter username" autocomplete="username"></div>
+      <div class="lf"><label class="lbl">PASSWORD</label><input class="inp" id="l-pass" type="password" placeholder="Enter password"></div>
       <button class="login-btn" onclick="doLogin()">Sign In →</button>
       <div class="login-err" id="l-err">Incorrect username or password.</div>
-      <div class="login-hint">Default credentials: admin / fra2026</div>
+      <div class="login-hint">Default: admin / fra2026</div>
     </div>
   </div>
 </div>
 
-<!-- ══════════════════════════════════════════
-     APP
-══════════════════════════════════════════ -->
+<!-- APP -->
 <div id="app">
-
-  <!-- SETUP BANNER -->
-  <div class="setup-banner" id="setup-banner">
-    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#92400e" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
-    <span class="setup-banner-txt"><strong>Setup required:</strong> Connect Google Apps Script to save photos & data to Google Drive/Sheets.</span>
-    <button class="setup-banner-btn" onclick="openSetupModal()">Configure Backend →</button>
-  </div>
-
-  <!-- TOP NAV -->
   <nav class="topnav">
     <div class="nav-logo" onclick="switchPage('browse')">
       <div class="nav-logo-box"><span>FRA</span></div>
@@ -471,15 +275,13 @@ button,input,select,textarea{font-family:var(--font-b)}
     </div>
   </nav>
 
-  <!-- ══════ BROWSE PAGE ══════ -->
+  <!-- BROWSE PAGE -->
   <div class="page active" id="page-browse">
     <div class="browse-hero">
       <div class="hero-eyebrow">FRA · CLASS PHOTO ARCHIVE</div>
       <div class="hero-title">Class <em>Photos</em></div>
       <div class="hero-sub">Browse, view and share photos from all centers and lessons.</div>
     </div>
-
-    <!-- YEAR PICKER -->
     <div class="pick-bar">
       <span class="pick-label">YEAR</span>
       <div class="pick-chips" id="year-chips"></div>
@@ -487,16 +289,11 @@ button,input,select,textarea{font-family:var(--font-b)}
       <span class="pick-label">MONTH</span>
       <div class="pick-chips" id="month-chips"></div>
     </div>
-
-    <!-- TYPE + FILTER -->
     <div class="filter-bar">
       <span class="pick-label">TYPE</span>
       <select class="fsel" id="f-type" onchange="applyFilters()">
         <option value="">All Types</option>
-        <option>In-Centre</option>
-        <option>Pre-School</option>
-        <option>INT</option>
-        <option>OST</option>
+        <option>In-Centre</option><option>Pre-School</option><option>INT</option><option>OST</option>
       </select>
       <select class="fsel" id="f-center" onchange="applyFilters()">
         <option value="">All Centers</option>
@@ -510,12 +307,9 @@ button,input,select,textarea{font-family:var(--font-b)}
       </select>
       <button class="filter-clear" onclick="resetFilters()">✕ Clear</button>
     </div>
-
-    <!-- GALLERY -->
     <div class="gallery-wrap">
-      <div class="gallery-header">
-        <div class="gallery-count" id="gallery-count">— entries</div>
-      </div>
+      <div class="alert" id="browse-alert"></div>
+      <div class="gallery-count" id="gallery-count">— entries</div>
       <div class="gallery-grid" id="gallery-grid"></div>
       <div class="empty-state hidden" id="empty-state">
         <div class="empty-icon">📷</div>
@@ -525,15 +319,36 @@ button,input,select,textarea{font-family:var(--font-b)}
     </div>
   </div>
 
-  <!-- ══════ UPLOAD PAGE ══════ -->
+  <!-- UPLOAD PAGE -->
   <div class="page" id="page-upload">
     <div class="upload-page">
-      <div class="upload-page-head">
-        <div class="upload-page-title">Upload Class Photos</div>
-        <div class="upload-page-sub">Select the type, fill in the details, then attach photos.</div>
+      <div class="upload-page-title">Upload Class Photos</div>
+      <div class="upload-page-sub">Select the type, fill in the details, then attach photos.</div>
+
+      <!-- BACKEND -->
+      <div class="form-card">
+        <div class="form-card-title">⚙️ Script URL</div>
+        <div class="backend-row">
+          <div class="ff">
+            <label class="ff-label">APPS SCRIPT WEB APP URL</label>
+            <input class="ff-input" id="backend-url" type="text" placeholder="Paste your deployed Apps Script URL">
+          </div>
+          <button class="btn-secondary" onclick="saveBackendUrl()">Save URL</button>
+          <button class="btn-secondary" onclick="resetBackendUrl()">Use Default</button>
+        </div>
+        <div class="backend-status" id="backend-status"></div>
+        <div class="backend-help">
+          This page is ready for GitHub Pages or any normal <code>http://</code> / <code>https://</code> static host.
+          You can prefill the backend with <code>?scriptUrl=YOUR_APPS_SCRIPT_EXEC_URL</code>, or save it here in the browser.
+        </div>
+        <div class="file-mode-note" id="file-mode-note" style="display:none">
+          You opened this page with <code>file://</code>. Browsers do not reliably POST local-file uploads to Google Apps Script.
+          Use GitHub Pages or another normal static host instead. For local testing, use <code>http://127.0.0.1:8765/fra-test.html</code>
+          or double-click <code>start-fra-test.command</code>.
+        </div>
       </div>
 
-      <!-- STEP 1: TYPE -->
+      <!-- TYPE -->
       <div class="form-card">
         <div class="form-card-title">
           <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
@@ -541,34 +356,23 @@ button,input,select,textarea{font-family:var(--font-b)}
         </div>
         <div class="type-selector">
           <div class="type-opt" id="t-incenter" onclick="selectType('In-Centre')">
-            <div class="type-opt-icon">🏫</div>
-            <div class="type-opt-label">In-Centre</div>
-            <div class="type-opt-sub">Individual classes</div>
+            <div class="type-opt-icon">🏫</div><div class="type-opt-label">In-Centre</div><div class="type-opt-sub">Individual classes</div>
           </div>
           <div class="type-opt" id="t-preschool" onclick="selectType('Pre-School')">
-            <div class="type-opt-icon">🎒</div>
-            <div class="type-opt-label">Pre-School</div>
-            <div class="type-opt-sub">TPY / BDM / CBP / FPL</div>
+            <div class="type-opt-icon">🎒</div><div class="type-opt-label">Pre-School</div><div class="type-opt-sub">TPY / BDM / CBP / FPL</div>
           </div>
           <div class="type-opt" id="t-int" onclick="selectType('INT')">
-            <div class="type-opt-icon">🏢</div>
-            <div class="type-opt-label">INT</div>
-            <div class="type-opt-sub">External schools</div>
+            <div class="type-opt-icon">🏢</div><div class="type-opt-label">INT</div><div class="type-opt-sub">External schools</div>
           </div>
           <div class="type-opt" id="t-ost" onclick="selectType('OST')">
-            <div class="type-opt-icon">🌟</div>
-            <div class="type-opt-label">OST</div>
-            <div class="type-opt-sub">Activities</div>
+            <div class="type-opt-icon">🌟</div><div class="type-opt-label">OST</div><div class="type-opt-sub">Activities</div>
           </div>
         </div>
       </div>
 
-      <!-- STEP 2: DATE -->
+      <!-- DATE -->
       <div class="form-card">
-        <div class="form-card-title">
-          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
-          Step 2 — Date
-        </div>
+        <div class="form-card-title">📅 Step 2 — Date</div>
         <div class="form-grid">
           <div class="ff">
             <label class="ff-label">YEAR <span class="ff-req">*</span></label>
@@ -581,119 +385,54 @@ button,input,select,textarea{font-family:var(--font-b)}
             <label class="ff-label">MONTH <span class="ff-req">*</span></label>
             <select class="ff-select" id="u-month">
               <option value="">Select month…</option>
-              <option>January</option><option>February</option><option>March</option>
-              <option>April</option><option>May</option><option>June</option>
-              <option>July</option><option>August</option><option>September</option>
-              <option>October</option><option>November</option><option>December</option>
+              <option>January</option><option>February</option><option>March</option><option>April</option>
+              <option>May</option><option>June</option><option>July</option><option>August</option>
+              <option>September</option><option>October</option><option>November</option><option>December</option>
             </select>
           </div>
         </div>
       </div>
 
-      <!-- STEP 3: DYNAMIC FIELDS -->
-
-      <!-- IN-CENTRE fields -->
+      <!-- IN-CENTRE -->
       <div class="form-card dyn-section" id="fields-incenter">
-        <div class="form-card-title">
-          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
-          Step 3 — In-Centre Details
-        </div>
+        <div class="form-card-title">🏫 Step 3 — In-Centre Details</div>
         <div class="form-grid">
-          <div class="ff">
-            <label class="ff-label">STUDENT NAME <span class="ff-req">*</span></label>
-            <input class="ff-input" id="ic-name" type="text" placeholder="e.g. John Smith">
-          </div>
-          <div class="ff">
-            <label class="ff-label">LESSON NUMBER <span class="ff-req">*</span></label>
-            <input class="ff-input" id="ic-lesson" type="text" placeholder="e.g. Lesson 4">
-          </div>
+          <div class="ff"><label class="ff-label">STUDENT NAME <span class="ff-req">*</span></label><input class="ff-input" id="ic-name" type="text" placeholder="e.g. John Smith"></div>
+          <div class="ff"><label class="ff-label">LESSON NUMBER <span class="ff-req">*</span></label><input class="ff-input" id="ic-lesson" type="text" placeholder="e.g. Lesson 4"></div>
           <div class="ff">
             <label class="ff-label">LEVEL <span class="ff-req">*</span></label>
-            <select class="ff-select" id="ic-level">
-              <option value="">Select level…</option>
-              <option>Level 1</option><option>Level 2</option><option>Level 3</option>
-              <option>Level 4</option><option>Level 5</option><option>Level 6</option>
-              <option>Level 7</option><option>Level 8</option>
-            </select>
+            <select class="ff-select" id="ic-level"><option value="">Select level…</option><option>Level 1</option><option>Level 2</option><option>Level 3</option><option>Level 4</option><option>Level 5</option><option>Level 6</option><option>Level 7</option><option>Level 8</option></select>
           </div>
-          <div class="ff full">
-            <label class="ff-label">COMMENTS</label>
-            <textarea class="ff-textarea" id="ic-comments" placeholder="Notes about this class…"></textarea>
-          </div>
+          <div class="ff full"><label class="ff-label">COMMENTS</label><textarea class="ff-textarea" id="ic-comments" placeholder="Notes about this class…"></textarea></div>
         </div>
       </div>
 
-      <!-- PRE-SCHOOL fields -->
+      <!-- PRE-SCHOOL -->
       <div class="form-card dyn-section" id="fields-preschool">
-        <div class="form-card-title">
-          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
-          Step 3 — Pre-School Details
-        </div>
+        <div class="form-card-title">🎒 Step 3 — Pre-School Details</div>
         <div class="form-grid">
-          <div class="ff">
-            <label class="ff-label">CENTER <span class="ff-req">*</span></label>
-            <select class="ff-select" id="ps-center">
-              <option value="">Select center…</option>
-              <option>TPY</option><option>BDM</option><option>CBP</option><option>FPL</option>
-            </select>
-          </div>
-          <div class="ff">
-            <label class="ff-label">STUDENT NAME <span class="ff-req">*</span></label>
-            <input class="ff-input" id="ps-name" type="text" placeholder="e.g. John Smith">
-          </div>
-          <div class="ff">
-            <label class="ff-label">LESSON NUMBER <span class="ff-req">*</span></label>
-            <input class="ff-input" id="ps-lesson" type="text" placeholder="e.g. Lesson 2">
-          </div>
-          <div class="ff">
-            <label class="ff-label">LEVEL <span class="ff-req">*</span></label>
-            <select class="ff-select" id="ps-level">
-              <option value="">Select level…</option>
-              <option>Level 1</option><option>Level 2</option><option>Level 3</option>
-              <option>Level 4</option><option>Level 5</option><option>Level 6</option>
-              <option>Level 7</option><option>Level 8</option>
-            </select>
-          </div>
-          <div class="ff full">
-            <label class="ff-label">COMMENTS</label>
-            <textarea class="ff-textarea" id="ps-comments" placeholder="Notes about this class…"></textarea>
-          </div>
+          <div class="ff"><label class="ff-label">CENTER <span class="ff-req">*</span></label><select class="ff-select" id="ps-center"><option value="">Select center…</option><option>TPY</option><option>BDM</option><option>CBP</option><option>FPL</option></select></div>
+          <div class="ff"><label class="ff-label">STUDENT NAME <span class="ff-req">*</span></label><input class="ff-input" id="ps-name" type="text" placeholder="e.g. John Smith"></div>
+          <div class="ff"><label class="ff-label">LESSON NUMBER <span class="ff-req">*</span></label><input class="ff-input" id="ps-lesson" type="text" placeholder="e.g. Lesson 2"></div>
+          <div class="ff"><label class="ff-label">LEVEL <span class="ff-req">*</span></label><select class="ff-select" id="ps-level"><option value="">Select level…</option><option>Level 1</option><option>Level 2</option><option>Level 3</option><option>Level 4</option><option>Level 5</option><option>Level 6</option><option>Level 7</option><option>Level 8</option></select></div>
+          <div class="ff full"><label class="ff-label">COMMENTS</label><textarea class="ff-textarea" id="ps-comments" placeholder="Notes about this class…"></textarea></div>
         </div>
       </div>
 
-      <!-- INT fields -->
+      <!-- INT -->
       <div class="form-card dyn-section" id="fields-int">
-        <div class="form-card-title">
-          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
-          Step 3 — INT School
-        </div>
+        <div class="form-card-title">🏢 Step 3 — INT School</div>
         <div class="form-grid">
-          <div class="ff full">
-            <label class="ff-label">SCHOOL <span class="ff-req">*</span></label>
-            <select class="ff-select" id="int-school">
-              <option value="">Select school…</option>
-              <option>SJII</option>
-              <option>OWIS@Punggol</option>
-              <option>OWIS@Nanyang</option>
-              <option>XCL</option>
-              <option>AIS</option>
-            </select>
-          </div>
+          <div class="ff full"><label class="ff-label">SCHOOL <span class="ff-req">*</span></label><select class="ff-select" id="int-school"><option value="">Select school…</option><option>SJII</option><option>OWIS@Punggol</option><option>OWIS@Nanyang</option><option>XCL</option><option>AIS</option></select></div>
         </div>
-        <div style="margin-top:12px;font-size:13px;color:var(--ink3)">📎 Just attach photos below — no other details needed for INT.</div>
+        <p style="margin-top:12px;font-size:13px;color:var(--ink3)">📎 Just attach photos — no other details needed for INT.</p>
       </div>
 
-      <!-- OST fields -->
+      <!-- OST -->
       <div class="form-card dyn-section" id="fields-ost">
-        <div class="form-card-title">
-          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
-          Step 3 — OST Activity
-        </div>
+        <div class="form-card-title">🌟 Step 3 — OST Activity</div>
         <div class="form-grid">
-          <div class="ff full">
-            <label class="ff-label">ACTIVITY NAME <span class="ff-req">*</span></label>
-            <input class="ff-input" id="ost-activity" type="text" placeholder="e.g. Sports Day, Field Trip to Zoo…">
-          </div>
+          <div class="ff full"><label class="ff-label">ACTIVITY NAME <span class="ff-req">*</span></label><input class="ff-input" id="ost-activity" type="text" placeholder="e.g. Sports Day, Field Trip to Zoo…"></div>
         </div>
       </div>
 
@@ -732,13 +471,13 @@ button,input,select,textarea{font-family:var(--font-b)}
       </div>
     </div>
   </div>
+</div>
 
-</div><!-- /app -->
-
-<!-- ══════ LIGHTBOX ══════ -->
+<!-- LIGHTBOX -->
 <div class="lightbox" id="lightbox" onclick="closeLB(event)">
   <div class="lb-inner" onclick="event.stopPropagation()">
     <button class="lb-close" onclick="closeLightbox()">✕</button>
+    <iframe class="lb-frame hidden" id="lb-frame" src="" title="Photo preview"></iframe>
     <img class="lb-img" id="lb-img" src="" alt="">
     <div class="lb-info">
       <div class="lb-title" id="lb-title"></div>
@@ -747,173 +486,353 @@ button,input,select,textarea{font-family:var(--font-b)}
       <div class="lb-actions">
         <button class="lb-btn" onclick="copyUrl()">📋 Copy URL</button>
         <button class="lb-btn" onclick="openInNew()">↗ Open full size</button>
+        <button class="lb-btn lb-btn-danger" onclick="deleteCurrentLightboxEntry()">🗑 Delete Record</button>
       </div>
     </div>
   </div>
 </div>
 
-<!-- ══════ EDIT MODAL ══════ -->
+<!-- EDIT MODAL -->
 <div class="modal-bg" id="edit-modal">
   <div class="modal-box">
     <div class="modal-head">
       <div class="modal-title">✏️ Edit Entry</div>
       <button class="modal-close-btn" onclick="closeEditModal()">✕</button>
     </div>
-    <div class="modal-body" id="edit-modal-body">
-      <!-- dynamically populated -->
-    </div>
+    <div class="modal-body" id="edit-modal-body"></div>
     <div class="modal-foot">
+      <button class="btn-danger" onclick="deleteCurrentEditEntry()">Delete Record</button>
       <button class="btn-secondary" onclick="closeEditModal()">Cancel</button>
-      <button class="btn-primary" id="edit-save-btn" onclick="saveEdit()">
-        <span id="edit-save-text">Save Changes</span>
-        <span class="spin hidden" id="edit-save-spin"></span>
-      </button>
-    </div>
-  </div>
-</div>
-
-<!-- ══════ SETUP MODAL ══════ -->
-<div class="modal-bg" id="setup-modal">
-  <div class="modal-box" style="max-width:700px">
-    <div class="modal-head">
-      <div class="modal-title">⚙️ Backend Setup</div>
-      <button class="modal-close-btn" onclick="closeSetupModal()">✕</button>
-    </div>
-    <div class="modal-body">
-
-      <div class="modal-step">
-        <div class="step-badge">STEP 01</div>
-        <div class="step-title">Create Google Sheet for Metadata</div>
-        <div class="step-desc">Go to <strong>sheets.google.com</strong> → New Spreadsheet → Name: <em>FRA Archive Data</em>. Add these Row 1 headers:</div>
-        <div class="code-block">id	year	month	type	center	school	name	lesson	level	activity	comments	fileIds	fileUrls	timestamp</div>
-      </div>
-
-      <div class="modal-step">
-        <div class="step-badge">STEP 02</div>
-        <div class="step-title">Create Google Drive Folder</div>
-        <div class="step-desc">Create a folder <strong>FRA Photos</strong> in Google Drive. Set sharing to <strong>"Anyone with the link → Viewer"</strong>. Copy the folder ID from the URL after <code>/folders/</code>.</div>
-      </div>
-
-      <div class="modal-step">
-        <div class="step-badge">STEP 03</div>
-        <div class="step-title">Deploy Apps Script</div>
-        <div class="step-desc">In the Sheet → <strong>Extensions → Apps Script</strong> → paste this code → <strong>Deploy → New Deployment → Web App</strong> → Execute as: Me, Access: Anyone → Copy URL.</div>
-        <div class="code-block">const DRIVE_FOLDER = 'YOUR_FOLDER_ID_HERE';
-const SHEET = 'Sheet1';
-
-function doPost(e) {
-  var p = JSON.parse(e.postData.contents);
-  if (p.action === 'upload') return handleUpload(p);
-  if (p.action === 'update') return handleUpdate(p);
-  if (p.action === 'delete') return handleDelete(p);
-  return res({error:'unknown'});
-}
-function doGet(e) {
-  if (e.parameter.action === 'list') return handleList(e.parameter);
-  return res({error:'unknown'});
-}
-function handleUpload(p) {
-  var ss = SpreadsheetApp.getActiveSpreadsheet().getSheetByName(SHEET);
-  var folder = DriveApp.getFolderById(DRIVE_FOLDER);
-  var urls = [], ids = [];
-  (p.files||[]).forEach(function(f, idx){
-    // Generate meaningful filename from form data
-    var parts = [p.year, p.month, p.type];
-    if (p.center) parts.push(p.center);
-    if (p.school) parts.push(p.school);
-    if (p.name) parts.push(p.name.replace(/\s+/g,'_'));
-    if (p.lesson) parts.push(p.lesson.replace(/\s+/g,'_'));
-    if (p.level) parts.push(p.level.replace(/\s+/g,'_'));
-    if (p.activity) parts.push(p.activity.replace(/\s+/g,'_').substring(0,20));
-    var ext = f.mime.split('/')[1] || 'jpg';
-    if (ext === 'jpeg') ext = 'jpg';
-    var filename = parts.join('_') + (p.files.length > 1 ? '_' + (idx+1) : '') + '.' + ext;
-    var blob = Utilities.newBlob(Utilities.base64Decode(f.data), f.mime, filename);
-    var file = folder.createFile(blob);
-    file.setSharing(DriveApp.Access.ANYONE_WITH_LINK, DriveApp.Permission.VIEW);
-    ids.push(file.getId());
-    urls.push('https://drive.google.com/uc?export=view&id='+file.getId());
-  });
-  var id = Utilities.getUuid();
-  ss.appendRow([id,p.year,p.month,p.type,p.center||'',p.school||'',p.name||'',p.lesson||'',p.level||'',p.activity||'',p.comments||'',ids.join(','),urls.join(','),new Date()]);
-  return res({ok:true,id:id,urls:urls});
-}
-function handleUpdate(p) {
-  var ss = SpreadsheetApp.getActiveSpreadsheet().getSheetByName(SHEET);
-  var data = ss.getDataRange().getValues();
-  for(var i=1;i<data.length;i++){
-    if(data[i][0]===p.id){
-      ss.getRange(i+1,5).setValue(p.center||'');
-      ss.getRange(i+1,6).setValue(p.school||'');
-      ss.getRange(i+1,7).setValue(p.name||'');
-      ss.getRange(i+1,8).setValue(p.lesson||'');
-      ss.getRange(i+1,9).setValue(p.level||'');
-      ss.getRange(i+1,10).setValue(p.activity||'');
-      ss.getRange(i+1,11).setValue(p.comments||'');
-      return res({ok:true});
-    }
-  }
-  return res({error:'not found'});
-}
-function handleList(q) {
-  var ss = SpreadsheetApp.getActiveSpreadsheet().getSheetByName(SHEET);
-  var rows = ss.getDataRange().getValues().slice(1);
-  var result = rows.filter(function(r){
-    return (!q.year||r[1]==q.year) && (!q.month||r[2]==q.month) && (!q.type||r[3]==q.type);
-  }).map(function(r){
-    return {id:r[0],year:r[1],month:r[2],type:r[3],center:r[4],school:r[5],name:r[6],lesson:r[7],level:r[8],activity:r[9],comments:r[10],fileUrls:String(r[12]).split(',').filter(Boolean)};
-  });
-  return res(result);
-}
-function handleDelete(p){
-  var ss = SpreadsheetApp.getActiveSpreadsheet().getSheetByName(SHEET);
-  var data = ss.getDataRange().getValues();
-  for(var i=1;i<data.length;i++){
-    if(data[i][0]===p.id){ss.deleteRow(i+1);return res({ok:true});}
-  }
-  return res({error:'not found'});
-}
-function res(d){return ContentService.createTextOutput(JSON.stringify(d)).setMimeType(ContentService.MimeType.JSON);}</div>
-      </div>
-
-      <div class="modal-step">
-        <div class="step-badge">STEP 04</div>
-        <div class="step-title">Paste Your Web App URL</div>
-        <div class="step-desc" style="margin-bottom:10px">After deploying, paste the URL here to connect the website to your backend.</div>
-        <label class="lbl">WEB APP URL</label>
-        <input class="inp" id="setup-url" type="url" placeholder="https://script.google.com/macros/s/…/exec" style="font-family:var(--font-m);font-size:12px">
-        <div style="display:flex;gap:10px;margin-top:14px">
-          <button class="btn-primary" onclick="saveSetup()">Save &amp; Connect</button>
-          <button class="btn-secondary" onclick="testSetup()">Test Connection</button>
-        </div>
-        <div class="alert" id="setup-alert"></div>
-      </div>
-
+      <button class="btn-primary" onclick="saveEdit()">Save Changes</button>
     </div>
   </div>
 </div>
 
 <script>
-// ═══════════════════════════════════
-// CONFIG & STATE
-// ═══════════════════════════════════
+// ── CONFIG ────────────────────────────────────────────────────
 const CREDS = { user:'admin', pass:'fra2026' };
-let SCRIPT_URL = localStorage.getItem('fra_url') || 'https://script.google.com/macros/s/AKfycbywx0MAOIPJSuI0YFUyJYG-VoCaBBI1YlqzYbB25sMKILz2wWF94eTgOKJuH2WefkoOYQ/exec';
-
-const YEARS  = ['2026','2027','2028','2029','2030'];
+const DEFAULT_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzf1xpF5tO9nC-7lnXpYxNIEm_k7dCSOVQAdrF639i1-VhAI4VLyRmx3C-C-djr061w/exec';
+const SCRIPT_URL_STORAGE_KEY = 'fra_script_url_v4';
+const YEARS = ['2026','2027','2028','2029','2030'];
 const MONTHS = ['January','February','March','April','May','June','July','August','September','October','November','December'];
-const TYPES  = ['In-Centre','Pre-School','INT','OST'];
+const TYPE_IDS = {'In-Centre':'incenter','Pre-School':'preschool','INT':'int','OST':'ost'};
 
-let state = { year: YEARS[0], month: '', type:'', center:'', level:'' };
+let state = { year:'', month:'' };
+let SCRIPT_URL = getInitialScriptUrl();
 let allEntries = [];
 let selectedFiles = [];
 let currentType = '';
-let currentEntry = null; // for edit modal
-let lbEntry = null;      // for lightbox
+let currentEntry = null;
+let currentLightboxEntry = null;
+let archiveSheetReadyPromise = null;
+let currentLightboxOpenUrl = '';
 
-// ═══════════════════════════════════
-// LOGIN
-// ═══════════════════════════════════
+// ── HELPERS ───────────────────────────────────────────────────
+function esc(s){ return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+
+function showAlert(id, type, msg) {
+  const el = document.getElementById(id);
+  const icons = { ok:'✅', err:'❌', warn:'⚠️' };
+  el.innerHTML = `<span class="alert-icon">${icons[type]||''}</span><span class="alert-msg">${msg}</span>`;
+  el.className = `alert ${type}`;
+  // Scroll into view after a tiny delay
+  setTimeout(() => {
+    el.scrollIntoView({ behavior:'smooth', block:'nearest' });
+  }, 100);
+}
+
+function hideAlert(id) {
+  const el = document.getElementById(id);
+  el.className = 'alert';
+  el.innerHTML = '';
+}
+
+function getEntryTitle(entry) {
+  if (!entry) return 'this record';
+  if (entry.type === 'In-Centre') return [entry.name, entry.lesson, entry.level].filter(Boolean).join(' · ') || 'In-Centre record';
+  if (entry.type === 'Pre-School') return [entry.center, entry.name, entry.lesson, entry.level].filter(Boolean).join(' · ') || 'Pre-School record';
+  if (entry.type === 'INT') return entry.school || 'INT record';
+  if (entry.type === 'OST') return entry.activity || 'OST activity';
+  return entry.name || entry.activity || entry.school || 'this record';
+}
+
+function isFileOrigin() {
+  return window.location.protocol === 'file:';
+}
+
+function sleep(ms) {
+  return new Promise(resolve => setTimeout(resolve, ms));
+}
+
+function normalizeScriptUrl(value) {
+  const url = String(value || '').trim();
+  return url || '';
+}
+
+function getQueryScriptUrl() {
+  try {
+    const url = new URL(window.location.href);
+    const candidates = ['scriptUrl', 'script', 'appsScriptUrl'];
+    for (const key of candidates) {
+      const value = normalizeScriptUrl(url.searchParams.get(key));
+      if (value) return value;
+    }
+  } catch (_) {}
+  return '';
+}
+
+function getEmbeddedScriptUrl() {
+  try {
+    return normalizeScriptUrl(window.FRA_CONFIG?.scriptUrl);
+  } catch (_) {
+    return '';
+  }
+}
+
+function getStoredScriptUrl() {
+  try {
+    return normalizeScriptUrl(localStorage.getItem(SCRIPT_URL_STORAGE_KEY));
+  } catch (_) {
+    return '';
+  }
+}
+
+function getInitialScriptUrl() {
+  return (
+    getQueryScriptUrl() ||
+    getEmbeddedScriptUrl() ||
+    getStoredScriptUrl() ||
+    DEFAULT_SCRIPT_URL
+  );
+}
+
+function syncScriptUrlQuery(value) {
+  try {
+    const url = new URL(window.location.href);
+    if (value && value !== DEFAULT_SCRIPT_URL) {
+      url.searchParams.set('scriptUrl', value);
+    } else {
+      url.searchParams.delete('scriptUrl');
+    }
+    history.replaceState({}, '', url.toString());
+  } catch (_) {}
+}
+
+function syncBackendUrlInput() {
+  const input = document.getElementById('backend-url');
+  if (input) input.value = SCRIPT_URL || '';
+  updateBackendStatus();
+  updateFileModeNotice();
+}
+
+function updateBackendStatus() {
+  const el = document.getElementById('backend-status');
+  if (!el) return;
+  const usingDefault = SCRIPT_URL === DEFAULT_SCRIPT_URL;
+  el.innerHTML = usingDefault
+    ? `Current script: <strong>default shared script</strong><br><code>${esc(SCRIPT_URL)}</code>`
+    : `Current backend: <strong>your saved script</strong><br><code>${esc(SCRIPT_URL)}</code>`;
+}
+
+function updateFileModeNotice() {
+  const note = document.getElementById('file-mode-note');
+  if (!note) return;
+  note.style.display = isFileOrigin() ? 'block' : 'none';
+}
+
+function saveBackendUrl() {
+  const input = document.getElementById('backend-url');
+  const value = input?.value?.trim() || '';
+  if (!value) {
+    showAlert('upload-alert', 'err', 'Please paste a valid <strong>Apps Script Web App URL</strong>.');
+    return;
+  }
+  SCRIPT_URL = value;
+  archiveSheetReadyPromise = null;
+  try { localStorage.setItem(SCRIPT_URL_STORAGE_KEY, value); } catch (_) {}
+  syncScriptUrlQuery(value);
+  updateBackendStatus();
+  showAlert('upload-alert', 'ok', 'Backend URL saved. New uploads will use this Apps Script.');
+}
+
+function resetBackendUrl() {
+  SCRIPT_URL = DEFAULT_SCRIPT_URL;
+  archiveSheetReadyPromise = null;
+  try { localStorage.removeItem(SCRIPT_URL_STORAGE_KEY); } catch (_) {}
+  syncScriptUrlQuery('');
+  syncBackendUrlInput();
+  showAlert('upload-alert', 'warn', 'Reverted to the default shared Apps Script URL.');
+}
+
+async function fetchSheetList(year, month) {
+  const params = new URLSearchParams({ action:'list' });
+  if (year) params.set('year', year);
+  if (month) params.set('month', month);
+  const res = await fetch(`${SCRIPT_URL}?${params}`, { cache:'no-store' });
+  if (!res.ok) throw new Error(`List request failed (${res.status})`);
+  const data = await res.json();
+  if (!Array.isArray(data)) throw new Error('Unexpected list response');
+  return data;
+}
+
+function submitPayloadViaHiddenForm(payload) {
+  return new Promise((resolve, reject) => {
+    const iframe = document.createElement('iframe');
+    const form = document.createElement('form');
+    const field = document.createElement('textarea');
+    const frameName = `fra-upload-${Date.now()}-${Math.random().toString(36).slice(2)}`;
+
+    iframe.name = frameName;
+    iframe.style.display = 'none';
+    form.method = 'POST';
+    form.action = SCRIPT_URL;
+    form.target = frameName;
+    form.enctype = 'application/x-www-form-urlencoded';
+    form.style.display = 'none';
+
+    field.name = 'payload';
+    field.value = JSON.stringify(payload);
+
+    form.appendChild(field);
+    document.body.appendChild(iframe);
+    document.body.appendChild(form);
+
+    let settled = false;
+    const cleanup = () => {
+      iframe.remove();
+      form.remove();
+    };
+    const finish = (fn, value) => {
+      if (settled) return;
+      settled = true;
+      cleanup();
+      fn(value);
+    };
+
+    iframe.addEventListener('load', () => {
+      setTimeout(() => finish(resolve, { ok: true, opaque: true, via: 'form' }), 150);
+    }, { once: true });
+    iframe.addEventListener('error', () => {
+      finish(reject, new Error('Form submission failed'));
+    }, { once: true });
+
+    try {
+      form.submit();
+      setTimeout(() => finish(resolve, { ok: true, opaque: true, via: 'form-timeout' }), 1500);
+    } catch (err) {
+      finish(reject, err);
+    }
+  });
+}
+
+async function postScriptPayload(payload) {
+  const req = {
+    method: 'POST',
+    headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+    body: JSON.stringify(payload)
+  };
+
+  if (isFileOrigin()) {
+    throw new Error('This page was opened via file://. Please use http://127.0.0.1:8765/fra-test.html or double-click start-fra-test.command before uploading.');
+  }
+
+  try {
+    const res = await fetch(SCRIPT_URL, req);
+    if (!res.ok) throw new Error(`Request failed (${res.status})`);
+
+    const data = await res.json();
+    if (data?.error) throw new Error(data.error);
+    return data;
+  } catch (err) {
+    const msg = String(err?.message || '');
+    const likelyCorsOrOpaque =
+      /failed to fetch/i.test(msg) ||
+      /networkerror/i.test(msg) ||
+      /load failed/i.test(msg) ||
+      /cors/i.test(msg) ||
+      /fetch/i.test(msg);
+
+    if (!likelyCorsOrOpaque) throw err;
+
+    try {
+      await fetch(SCRIPT_URL, { ...req, mode: 'no-cors' });
+      return { ok:true, opaque:true, via:'no-cors' };
+    } catch (_) {
+      return submitPayloadViaHiddenForm(payload);
+    }
+  }
+}
+
+async function requestSheetCreation() {
+  const attempts = [
+    { action:'ensure_sheet', sheetName:'FRA Archive', createIfMissing:true },
+    { action:'ensureSheet', sheetName:'FRA Archive', createIfMissing:true },
+    { action:'create_sheet', sheetName:'FRA Archive' },
+    { action:'createSheet', sheetName:'FRA Archive' }
+  ];
+
+  let lastErr = null;
+  for (const payload of attempts) {
+    try {
+      const data = await postScriptPayload(payload);
+      if (data?.opaque || data?.ok || data?.created || data?.sheetName || data?.spreadsheetId) {
+        return { ok:true, action:payload.action, data };
+      }
+      const errMsg = data?.error || `Create request failed for ${payload.action}`;
+      lastErr = new Error(errMsg);
+    } catch (err) {
+      lastErr = err;
+    }
+  }
+
+  throw lastErr || new Error('Failed to create sheet');
+}
+
+async function doEnsureArchiveSheet() {
+  try {
+    await fetchSheetList(state.year || YEARS[0], '');
+    return { created:false };
+  } catch (readErr) {
+    await requestSheetCreation();
+    await fetchSheetList(state.year || YEARS[0], '');
+    return { created:true, readError:readErr };
+  }
+}
+
+function ensureArchiveSheet() {
+  if (!archiveSheetReadyPromise) {
+    archiveSheetReadyPromise = doEnsureArchiveSheet().catch(err => {
+      archiveSheetReadyPromise = null;
+      throw err;
+    });
+  }
+  return archiveSheetReadyPromise;
+}
+
+function toBase64(file) {
+  return new Promise((res,rej) => {
+    const r = new FileReader();
+    r.onload = () => res(r.result.split(',')[1]);
+    r.onerror = rej;
+    r.readAsDataURL(file);
+  });
+}
+
+function buildFilename(payload, file, idx, total) {
+  // Build: Year_Month_Type_Center/School_Name_Lesson_Level[_N].ext
+  const parts = [payload.year, payload.month, payload.type];
+  if (payload.center) parts.push(payload.center);
+  if (payload.school) parts.push(payload.school.replace(/[@\s]/g,'_'));
+  if (payload.name)   parts.push(payload.name.trim().replace(/\s+/g,'_'));
+  if (payload.lesson) parts.push(payload.lesson.trim().replace(/\s+/g,'_'));
+  if (payload.level)  parts.push(payload.level.replace(/\s+/g,'_'));
+  if (payload.activity) parts.push(payload.activity.trim().replace(/\s+/g,'_').substring(0,20));
+  const ext = (file.type.split('/')[1] || 'jpg').replace('jpeg','jpg');
+  const suffix = total > 1 ? `_${idx+1}` : '';
+  return parts.join('_') + suffix + '.' + ext;
+}
+
+// ── LOGIN ─────────────────────────────────────────────────────
 function doLogin() {
   const u = document.getElementById('l-user').value.trim();
   const p = document.getElementById('l-pass').value;
@@ -929,82 +848,62 @@ function doLogin() {
   }
 }
 function doLogout() {
-  document.getElementById('app').classList.remove('show');
-  document.getElementById('login-screen').style.display = 'flex';
-  document.getElementById('login-screen').classList.remove('out');
-  document.getElementById('l-pass').value = '';
-  document.getElementById('l-err').style.display = 'none';
+  location.reload();
 }
 document.getElementById('l-pass').addEventListener('keydown', e => { if(e.key==='Enter') doLogin(); });
 document.getElementById('l-user').addEventListener('keydown', e => { if(e.key==='Enter') doLogin(); });
 
-// ═══════════════════════════════════
-// INIT
-// ═══════════════════════════════════
+// ── INIT ──────────────────────────────────────────────────────
 function init() {
+  syncBackendUrlInput();
   buildYearChips();
   buildMonthChips();
-  if (SCRIPT_URL) document.getElementById('setup-banner').classList.add('hidden');
   loadEntries();
 }
 
 function buildYearChips() {
-  const wrap = document.getElementById('year-chips');
-  wrap.innerHTML = YEARS.map(y =>
-    `<div class="chip ${y===state.year?'active':''}" onclick="setYear('${y}')">${y}</div>`
+  const yearOptions = [{ value:'', label:'All Years' }].concat(YEARS.map(y => ({ value:y, label:y })));
+  document.getElementById('year-chips').innerHTML = yearOptions.map(opt =>
+    `<div class="chip ${opt.value===state.year?'active':''}" onclick="setYear('${opt.value}')">${opt.label}</div>`
   ).join('');
 }
+
 function buildMonthChips() {
-  const wrap = document.getElementById('month-chips');
   const shorts = ['All','Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
-  wrap.innerHTML = shorts.map((m,i) => {
+  document.getElementById('month-chips').innerHTML = shorts.map((m,i) => {
     const val = i===0 ? '' : MONTHS[i-1];
-    return `<div class="chip ${val===state.month?'active':''}" onclick="setMonth('${val}','${m}')">${m}</div>`;
+    return `<div class="chip ${val===state.month?'active':''}" onclick="setMonth('${val}')">${m}</div>`;
   }).join('');
 }
 
-function setYear(y) {
-  state.year = y;
-  buildYearChips();
-  loadEntries();
-}
-function setMonth(val, label) {
-  state.month = val;
-  buildMonthChips();
-  loadEntries();
-}
+function setYear(y) { state.year=y; buildYearChips(); loadEntries(); }
+function setMonth(v) { state.month=v; buildMonthChips(); loadEntries(); }
 
-// ═══════════════════════════════════
-// PAGE SWITCH
-// ═══════════════════════════════════
+// ── PAGE SWITCH ───────────────────────────────────────────────
 function switchPage(name) {
   document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
   document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
   document.getElementById('page-'+name).classList.add('active');
   document.getElementById('nav-'+name).classList.add('active');
   if (name==='browse') loadEntries();
+  if (name==='upload') hideAlert('upload-alert');
 }
 
-// ═══════════════════════════════════
-// TYPE SELECTOR
-// ═══════════════════════════════════
-const TYPE_IDS = {'In-Centre':'incenter','Pre-School':'preschool','INT':'int','OST':'ost'};
+// ── TYPE SELECT ───────────────────────────────────────────────
 function selectType(t) {
   currentType = t;
   document.querySelectorAll('.type-opt').forEach(el => el.classList.remove('selected'));
   document.getElementById('t-'+TYPE_IDS[t]).classList.add('selected');
   document.querySelectorAll('.dyn-section').forEach(el => el.classList.remove('show'));
   document.getElementById('fields-'+TYPE_IDS[t]).classList.add('show');
+  hideAlert('upload-alert');
 }
 
-// ═══════════════════════════════════
-// PHOTO SELECTION
-// ═══════════════════════════════════
+// ── PHOTO SELECTION ───────────────────────────────────────────
 const dropZone = document.getElementById('drop-zone');
 dropZone.addEventListener('dragover', e => { e.preventDefault(); dropZone.classList.add('drag-over'); });
 dropZone.addEventListener('dragleave', () => dropZone.classList.remove('drag-over'));
 dropZone.addEventListener('drop', e => { e.preventDefault(); dropZone.classList.remove('drag-over'); addFiles(e.dataTransfer.files); });
-
 function handlePhotoSelect(files) { addFiles(files); }
 
 function addFiles(files) {
@@ -1017,124 +916,190 @@ function addFiles(files) {
 
 function renderPreviews() {
   const strip = document.getElementById('preview-strip');
-  if (selectedFiles.length === 0) {
-    strip.innerHTML = '';
-    return;
-  }
-  strip.innerHTML = selectedFiles.map((f,i) => {
+  if (selectedFiles.length === 0) { strip.innerHTML = ''; return; }
+
+  strip.innerHTML = selectedFiles.map((f, i) => {
     const url = URL.createObjectURL(f);
     return `<div class="prev-item">
-      <img class="prev-img" src="${url}" alt="${f.name}" onerror="this.style.background='#ccc'">
       <div class="prev-rm" onclick="removeFile(${i})">✕</div>
-      <div style="font-size:9px;text-align:center;overflow:hidden;white-space:nowrap;text-overflow:ellipsis;width:82px;color:#666;margin-top:2px">${f.name}</div>
+      <img class="prev-img" src="${url}" alt="${esc(f.name)}"
+           onload="this.style.opacity=1"
+           onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%2290%22 height=%2290%22><rect width=%2290%22 height=%2290%22 fill=%22%23dbeafe%22/><text x=%2245%22 y=%2250%22 text-anchor=%22middle%22 font-size=%2224%22>📷</text></svg>'"
+           style="opacity:0;transition:opacity .3s">
+      <div class="prev-name">${esc(f.name)}</div>
     </div>`;
-  }).join('');
-  // Show count badge
-  const countMsg = selectedFiles.length + ' photo' + (selectedFiles.length>1?'s':'') + ' selected';
-  strip.insertAdjacentHTML('beforeend', '<div style="display:flex;align-items:center;font-size:12px;color:var(--ink2);padding:4px 8px;background:var(--accent-light);border-radius:6px;height:fit-content">' + countMsg + '</div>');
+  }).join('') + `<div class="preview-count">${selectedFiles.length} photo${selectedFiles.length>1?'s':''} selected</div>`;
 }
+
 function removeFile(i) {
+  URL.revokeObjectURL(document.querySelectorAll('.prev-img')[i]?.src);
   selectedFiles.splice(i, 1);
   renderPreviews();
 }
 
-// ═══════════════════════════════════
-// UPLOAD
-// ═══════════════════════════════════
-async function submitUpload() {
-  const alert = document.getElementById('upload-alert');
-  alert.className = 'alert'; alert.style.display = 'none';
+function getPrimaryFileId(entry) {
+  const directId = Array.isArray(entry?.fileIds) && entry.fileIds[0] ? String(entry.fileIds[0]).trim() : '';
+  if (directId) return directId;
+  const directUrl = Array.isArray(entry?.fileUrls) && entry.fileUrls[0] ? String(entry.fileUrls[0]).trim() : '';
+  const match = directUrl.match(/[?&]id=([^&]+)/) || directUrl.match(/\/d\/([^/?]+)/) || directUrl.match(/download\/id=([^&]+)/);
+  return match ? decodeURIComponent(match[1]) : '';
+}
 
-  // Validate type
-  if (!currentType) return showAlert('upload-alert','warn','⚠ Please select a <strong>Type</strong> first: In-Centre, Pre-School, INT, or OST.');
-  
-  // Validate year and month
-  const year  = document.getElementById('u-year').value;
-  const month = document.getElementById('u-month').value;
-  if (!year) return showAlert('upload-alert','err','❌ Please select a <strong>Year</strong>.');
-  if (!month) return showAlert('upload-alert','err','❌ Please select a <strong>Month</strong>.');
+function getPrimaryFileUrl(entry) {
+  const directUrl = Array.isArray(entry?.fileUrls) && entry.fileUrls[0] ? String(entry.fileUrls[0]).trim() : '';
+  if (directUrl) return directUrl;
+  const fileId = getPrimaryFileId(entry);
+  return fileId ? `https://drive.google.com/uc?export=view&id=${encodeURIComponent(fileId)}` : '';
+}
 
-  let payload = { action:'upload', year, month, type:currentType };
+function getPrimaryPreviewEmbedUrl(entry) {
+  const fileId = getPrimaryFileId(entry);
+  return fileId ? `https://drive.google.com/file/d/${encodeURIComponent(fileId)}/preview` : '';
+}
 
-  if (currentType === 'In-Centre') {
-    const name = document.getElementById('ic-name').value.trim();
-    const lesson = document.getElementById('ic-lesson').value.trim();
-    const level = document.getElementById('ic-level').value;
-    if (!name) return showAlert('upload-alert','err','❌ <strong>Student Name</strong> is required. Please fill it in.');
-    if (!lesson) return showAlert('upload-alert','err','❌ <strong>Lesson Number</strong> is required. Please fill it in.');
-    if (!level) return showAlert('upload-alert','err','❌ <strong>Level</strong> is required. Please select a level.');
-    payload = {...payload, name, lesson, level, comments:document.getElementById('ic-comments').value.trim()};
-  } else if (currentType === 'Pre-School') {
-    const center = document.getElementById('ps-center').value;
-    const name = document.getElementById('ps-name').value.trim();
-    const lesson = document.getElementById('ps-lesson').value.trim();
-    const level = document.getElementById('ps-level').value;
-    if (!center) return showAlert('upload-alert','err','❌ <strong>Center</strong> is required. Please select TPY / BDM / CBP / FPL.');
-    if (!name) return showAlert('upload-alert','err','❌ <strong>Student Name</strong> is required. Please fill it in.');
-    if (!lesson) return showAlert('upload-alert','err','❌ <strong>Lesson Number</strong> is required. Please fill it in.');
-    if (!level) return showAlert('upload-alert','err','❌ <strong>Level</strong> is required. Please select a level.');
-    payload = {...payload, center, name, lesson, level, comments:document.getElementById('ps-comments').value.trim()};
-  } else if (currentType === 'INT') {
-    const school = document.getElementById('int-school').value;
-    if (!school) return showAlert('upload-alert','err','❌ Missing: Please select a school.');
-    payload = {...payload, school};
-  } else if (currentType === 'OST') {
-    const activity = document.getElementById('ost-activity').value.trim();
-    if (!activity) return showAlert('upload-alert','err','❌ Missing: Activity Name is required.');
-    payload = {...payload, activity};
+function getPrimaryOpenUrl(entry) {
+  const fileId = getPrimaryFileId(entry);
+  return fileId ? `https://drive.google.com/file/d/${encodeURIComponent(fileId)}/view` : getPrimaryFileUrl(entry);
+}
+
+function rowMatchesUpload(row, payload) {
+  const keys = ['year','month','type','center','school','name','lesson','level','activity','comments'];
+  return keys.every(key => String(row?.[key] || '') === String(payload?.[key] || ''));
+}
+
+async function waitForUploadConfirmation(year, month, previousCount, createdId, payload) {
+  const deadline = Date.now() + 15000;
+  while (Date.now() < deadline) {
+    await sleep(1200);
+    const rows = await fetchSheetList(year, month);
+    if (createdId && rows.some(row => row.id === createdId)) return rows;
+    if (!createdId && rows.length > previousCount && rows.some(row => rowMatchesUpload(row, payload))) return rows;
+    if (!createdId && rows.length > previousCount) return rows;
   }
+  throw new Error('Upload request was sent, but no metadata row appeared in Google Sheet. Please check that your Apps Script URL supports upload + sheet write.');
+}
 
-  if (selectedFiles.length === 0) return showAlert('upload-alert','err','❌ Please <strong>attach at least one photo</strong> before uploading.');
+// ── UPLOAD ────────────────────────────────────────────────────
+async function submitUpload() {
+  hideAlert('upload-alert');
 
-  if (!SCRIPT_URL) {
-    // Demo mode — local only
-    const urls = selectedFiles.map(f => URL.createObjectURL(f));
-    const entry = { ...payload, id: 'local_'+Date.now(), fileUrls: urls };
-    allEntries.unshift(entry);
-    renderGallery(allEntries);
-    resetUploadForm();
-    showAlert('upload-alert','warn','⚠ Demo mode: photos saved locally only (not to Google Drive). Configure backend to persist.');
-    switchPage('browse');
+  // ── Validate type
+  if (!currentType) {
+    showAlert('upload-alert','warn','Please select a <strong>Type</strong> first — In-Centre, Pre-School, INT, or OST.');
     return;
   }
 
-  // Real upload
-  setUploading(true);
-  showAlert('upload-alert','warn','⏳ Uploading photos to Google Drive, please wait…');
-  const prog = document.getElementById('prog-wrap');
-  const bar = document.getElementById('prog-fill');
-  const txt = document.getElementById('prog-text');
-  prog.style.display = 'block'; bar.style.width='0%';
+  // ── Validate date
+  const year  = document.getElementById('u-year').value;
+  const month = document.getElementById('u-month').value;
+  if (!year)  { showAlert('upload-alert','err','Please select a <strong>Year</strong>.'); return; }
+  if (!month) { showAlert('upload-alert','err','Please select a <strong>Month</strong>.'); return; }
 
   try {
-    const filePayloads = [];
-    for (let i=0; i<selectedFiles.length; i++) {
-      txt.textContent = `Reading photo ${i+1} of ${selectedFiles.length}…`;
-      bar.style.width = `${Math.round((i/selectedFiles.length)*50)}%`;
-      const b64 = await toBase64(selectedFiles[i]);
-      filePayloads.push({ name:selectedFiles[i].name, mime:selectedFiles[i].type, data:b64, index:i });
+    const ensured = await ensureArchiveSheet();
+    if (ensured.created) {
+      showAlert('upload-alert','warn','Created the missing main Google Sheet. Continuing upload…');
     }
-    txt.textContent = 'Uploading to Google Drive…';
-    bar.style.width = '70%';
-    await fetch(SCRIPT_URL, {
-      method:'POST',
-      mode:'no-cors',
-      headers:{'Content-Type':'application/json'},
-      body: JSON.stringify({...payload, files: filePayloads})
-    });
+  } catch (e) {
+    const msg = e?.message ? esc(e.message) : 'Unable to create or access the Google Sheet.';
+    showAlert('upload-alert','err',`Could not prepare the main Google Sheet before upload.<br>${msg}`);
+    return;
+  }
+
+  // ── Build payload & validate per-type fields
+  const payload = { action:'upload', year, month, type: currentType };
+
+  if (currentType === 'In-Centre') {
+    const name   = document.getElementById('ic-name').value.trim();
+    const lesson = document.getElementById('ic-lesson').value.trim();
+    const level  = document.getElementById('ic-level').value;
+    if (!name)   { showAlert('upload-alert','err','<strong>Student Name</strong> is required.'); return; }
+    if (!lesson) { showAlert('upload-alert','err','<strong>Lesson Number</strong> is required.'); return; }
+    if (!level)  { showAlert('upload-alert','err','Please select a <strong>Level</strong>.'); return; }
+    Object.assign(payload, { name, lesson, level, comments: document.getElementById('ic-comments').value.trim() });
+
+  } else if (currentType === 'Pre-School') {
+    const center = document.getElementById('ps-center').value;
+    const name   = document.getElementById('ps-name').value.trim();
+    const lesson = document.getElementById('ps-lesson').value.trim();
+    const level  = document.getElementById('ps-level').value;
+    if (!center) { showAlert('upload-alert','err','Please select a <strong>Center</strong> (TPY / BDM / CBP / FPL).'); return; }
+    if (!name)   { showAlert('upload-alert','err','<strong>Student Name</strong> is required.'); return; }
+    if (!lesson) { showAlert('upload-alert','err','<strong>Lesson Number</strong> is required.'); return; }
+    if (!level)  { showAlert('upload-alert','err','Please select a <strong>Level</strong>.'); return; }
+    Object.assign(payload, { center, name, lesson, level, comments: document.getElementById('ps-comments').value.trim() });
+
+  } else if (currentType === 'INT') {
+    const school = document.getElementById('int-school').value;
+    if (!school) { showAlert('upload-alert','err','Please select a <strong>School</strong>.'); return; }
+    Object.assign(payload, { school });
+
+  } else if (currentType === 'OST') {
+    const activity = document.getElementById('ost-activity').value.trim();
+    if (!activity) { showAlert('upload-alert','err','<strong>Activity Name</strong> is required.'); return; }
+    Object.assign(payload, { activity });
+  }
+
+  // ── Validate photos
+  if (selectedFiles.length === 0) {
+    showAlert('upload-alert','err','Please attach <strong>at least one photo</strong> before uploading.');
+    return;
+  }
+
+  // ── Upload
+  setUploading(true);
+  showAlert('upload-alert','warn','⏳ Uploading photos to Google Drive, please wait…');
+
+  const prog = document.getElementById('prog-wrap');
+  const bar  = document.getElementById('prog-fill');
+  const txt  = document.getElementById('prog-text');
+  prog.style.display = 'block';
+  bar.style.width = '0%';
+
+  try {
+    const uploadedCount = selectedFiles.length;
+    let previousCount = 0;
+    try {
+      previousCount = (await fetchSheetList(year, month)).length;
+    } catch (_) {}
+
+    const filePayloads = [];
+    for (let i = 0; i < selectedFiles.length; i++) {
+      txt.textContent = `Reading photo ${i+1} of ${selectedFiles.length}…`;
+      bar.style.width = `${Math.round((i / selectedFiles.length) * 50)}%`;
+      const b64 = await toBase64(selectedFiles[i]);
+      const filename = buildFilename(payload, selectedFiles[i], i, selectedFiles.length);
+      filePayloads.push({
+        name: filename,
+        originalName: selectedFiles[i].name,
+        mime: selectedFiles[i].type,
+        data: b64
+      });
+    }
+
+    txt.textContent = 'Sending to Google Drive…';
+    bar.style.width = '75%';
+
+    const uploadData = await postScriptPayload({ ...payload, files: filePayloads });
+
+    txt.textContent = 'Verifying Google Sheet entry…';
+    bar.style.width = '88%';
+    const confirmedRows = await waitForUploadConfirmation(year, month, previousCount, uploadData.id, payload);
+
     bar.style.width = '100%';
-    txt.textContent = `✓ ${selectedFiles.length} photo(s) uploaded!`;
-    const entry = {...payload, id:'local_'+Date.now(), fileUrls:[]};
-    allEntries.unshift(entry);
-    renderGallery(allEntries);
+    txt.textContent = `✓ ${uploadedCount} photo${uploadedCount>1?'s':''} uploaded!`;
+    allEntries = confirmedRows;
     resetUploadForm();
-    showAlert('upload-alert','ok',`✅ ${selectedFiles.length} photo(s) uploaded to Google Drive! Check your Drive folder to confirm.`);
-    setTimeout(() => switchPage('browse'), 2000);
-  } catch(e) {
-    showAlert('upload-alert','err','Network error. Check your backend URL and try again.');
+    applyFilters();
+    showAlert('upload-alert','ok',`${uploadedCount} photo${uploadedCount>1?'s':''} uploaded and confirmed in Google Sheet.`);
+    setTimeout(() => switchPage('browse'), 2200);
+
+  } catch (e) {
+    const msg = e?.message ? esc(e.message) : 'Network error. Please check your connection and try again.';
+    showAlert('upload-alert','err',msg);
   } finally {
     setUploading(false);
-    setTimeout(() => { prog.style.display='none'; bar.style.width='0%'; }, 2000);
+    setTimeout(() => { prog.style.display='none'; bar.style.width='0%'; }, 3000);
   }
 }
 
@@ -1151,54 +1116,39 @@ function resetUploadForm() {
   document.querySelectorAll('.dyn-section').forEach(el => el.classList.remove('show'));
   document.getElementById('preview-strip').innerHTML = '';
   document.getElementById('photo-input').value = '';
-  ['ic-name','ic-lesson','ic-comments','ps-name','ps-lesson','ps-comments','ost-activity'].forEach(id => { try{document.getElementById(id).value='';}catch(e){} });
-  ['ic-level','ps-center','ps-level','int-school','u-year','u-month'].forEach(id => { try{document.getElementById(id).value='';}catch(e){} });
+  ['ic-name','ic-lesson','ic-comments','ps-name','ps-lesson','ps-comments','ost-activity']
+    .forEach(id => { try { document.getElementById(id).value=''; } catch(e){} });
+  ['ic-level','ps-center','ps-level','int-school','u-year','u-month']
+    .forEach(id => { try { document.getElementById(id).value=''; } catch(e){} });
 }
 
-function toBase64(file) {
-  return new Promise((res,rej) => {
-    const r = new FileReader();
-    r.onload = () => res(r.result.split(',')[1]);
-    r.onerror = rej;
-    r.readAsDataURL(file);
-  });
-}
-
-// ═══════════════════════════════════
-// BROWSE / GALLERY
-// ═══════════════════════════════════
+// ── GALLERY ───────────────────────────────────────────────────
 async function loadEntries() {
   const countEl = document.getElementById('gallery-count');
   countEl.textContent = 'Loading…';
-  if (!SCRIPT_URL) {
-    renderGallery(allEntries);
-    return;
-  }
   try {
-    const params = new URLSearchParams({ action:'list', year:state.year });
-    if (state.month) params.set('month', state.month);
-    const res = await fetch(`${SCRIPT_URL}?${params}`);
-    allEntries = await res.json();
-    applyFilters();
+    await ensureArchiveSheet();
+    allEntries = await fetchSheetList(state.year, state.month);
   } catch(e) {
-    renderGallery(allEntries);
+    // keep existing
   }
+  applyFilters();
 }
 
-function applyFilters() {
+function getFiltered() {
   const t = document.getElementById('f-type').value;
   const c = document.getElementById('f-center').value;
   const l = document.getElementById('f-level').value;
-  let filtered = allEntries.filter(e => {
+  return allEntries.filter(e => {
     if (state.month && e.month !== state.month) return false;
     if (t && e.type !== t) return false;
     if (c && e.center !== c) return false;
     if (l && e.level !== l) return false;
     return true;
   });
-  renderGallery(filtered);
 }
 
+function applyFilters() { renderGallery(getFiltered()); }
 function resetFilters() {
   document.getElementById('f-type').value = '';
   document.getElementById('f-center').value = '';
@@ -1207,37 +1157,37 @@ function resetFilters() {
 }
 
 function renderGallery(list) {
-  const grid = document.getElementById('gallery-grid');
+  const grid  = document.getElementById('gallery-grid');
   const empty = document.getElementById('empty-state');
   const count = document.getElementById('gallery-count');
-  count.textContent = `${list.length} entr${list.length!==1?'ies':'y'} · ${state.year}${state.month?' · '+state.month:''}`;
+  const yearLabel = state.year || 'All Years';
+  count.textContent = `${list.length} entr${list.length!==1?'ies':'y'} · ${yearLabel}${state.month?' · '+state.month:''}`;
 
-  if (!list.length) {
-    grid.innerHTML = '';
-    empty.classList.remove('hidden');
-    return;
-  }
+  if (!list.length) { grid.innerHTML=''; empty.classList.remove('hidden'); return; }
   empty.classList.add('hidden');
 
-  grid.innerHTML = list.map((e,idx) => {
-    const firstUrl = (e.fileUrls&&e.fileUrls[0]) || '';
-    const imgTag = firstUrl
-      ? `<img class="photo-card-img" src="${esc(firstUrl)}" alt="" loading="lazy">`
+  grid.innerHTML = list.map((e, idx) => {
+    const previewUrl = getPrimaryPreviewEmbedUrl(e);
+    const imgHtml = previewUrl
+      ? `<iframe class="photo-card-frame" src="${esc(previewUrl)}" title="${esc(e.name || e.activity || e.school || e.type || 'Photo preview')}" loading="lazy"></iframe>`
       : `<div class="photo-card-placeholder"><svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#b8cce8" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="m21 15-5-5L5 21"/></svg></div>`;
-    const title = e.type==='In-Centre'  ? `${e.name||''} · ${e.lesson||''}`
-                : e.type==='Pre-School' ? `${e.center||''} · ${e.name||''} · ${e.lesson||''}`
-                : e.type==='INT'        ? `${e.school||''}`
-                : `${e.activity||'OST Activity'}`;
+
+    const title = e.type==='In-Centre'  ? [e.name,e.lesson].filter(Boolean).join(' · ')
+                : e.type==='Pre-School' ? [e.center,e.name,e.lesson].filter(Boolean).join(' · ')
+                : e.type==='INT'        ? (e.school||'INT')
+                :                        (e.activity||'OST Activity');
+
     const tags = [
       `<span class="tag tag-type">${esc(e.type)}</span>`,
       e.center ? `<span class="tag tag-center">${esc(e.center)}</span>` : '',
       e.school  ? `<span class="tag tag-school">${esc(e.school)}</span>` : '',
       e.level   ? `<span class="tag tag-level">${esc(e.level)}</span>` : '',
     ].filter(Boolean).join('');
-    const photoCount = e.fileUrls?.length || 0;
+
+    const cnt = e.fileUrls?.length || 0;
     return `<div class="photo-card" onclick="openLightbox(${idx})">
       <div class="photo-card-img-wrap">
-        ${imgTag}
+        ${imgHtml}
         <div class="photo-card-type-badge">${esc(e.type)}</div>
         <button class="photo-card-edit-btn" onclick="event.stopPropagation();openEditModal(${idx})" title="Edit">
           <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
@@ -1246,215 +1196,157 @@ function renderGallery(list) {
       <div class="photo-card-body">
         <div class="photo-card-tags">${tags}</div>
         <div class="photo-card-title">${esc(title)}</div>
-        ${e.comments?`<div class="photo-card-meta">${esc(e.comments)}</div>`:''}
+        ${e.comments ? `<div class="photo-card-meta">${esc(e.comments)}</div>` : ''}
         <div class="photo-card-foot">
-          <span>${esc(e.month||'')} ${esc(e.year||'')}</span>
-          <span>${photoCount} photo${photoCount!==1?'s':''}</span>
+          <span>${esc(e.month||'')} ${esc(String(e.year||''))}</span>
+          <span>${cnt} photo${cnt!==1?'s':''}</span>
         </div>
       </div>
     </div>`;
   }).join('');
 }
 
-// ═══════════════════════════════════
-// LIGHTBOX
-// ═══════════════════════════════════
-let filteredList = [];
+// ── LIGHTBOX ──────────────────────────────────────────────────
 function openLightbox(idx) {
-  const t = document.getElementById('f-type').value;
-  const c = document.getElementById('f-center').value;
-  const l = document.getElementById('f-level').value;
-  filteredList = allEntries.filter(e => {
-    if (state.month && e.month !== state.month) return false;
-    if (t && e.type !== t) return false;
-    if (c && e.center !== c) return false;
-    if (l && e.level !== l) return false;
-    return true;
-  });
-  lbEntry = filteredList[idx];
-  if (!lbEntry) return;
-  const url = lbEntry.fileUrls?.[0] || '';
-  document.getElementById('lb-img').src = url;
-  document.getElementById('lb-title').textContent = getTitleForEntry(lbEntry);
-  document.getElementById('lb-tags').innerHTML = getTagsForEntry(lbEntry);
-  document.getElementById('lb-comment').textContent = lbEntry.comments || '';
+  const list = getFiltered();
+  const e = list[idx];
+  if (!e) return;
+  currentLightboxEntry = e;
+  const previewUrl = getPrimaryPreviewEmbedUrl(e);
+  const openUrl = getPrimaryOpenUrl(e);
+  const lbImg = document.getElementById('lb-img');
+  const lbFrame = document.getElementById('lb-frame');
+  currentLightboxOpenUrl = openUrl;
+  if (previewUrl) {
+    lbFrame.src = previewUrl;
+    lbFrame.classList.remove('hidden');
+    lbImg.src = '';
+    lbImg.classList.add('hidden');
+  } else {
+    lbImg.src = getPrimaryFileUrl(e);
+    lbImg.classList.remove('hidden');
+    lbFrame.src = '';
+    lbFrame.classList.add('hidden');
+  }
+  document.getElementById('lb-title').textContent =
+    e.type==='In-Centre'  ? [e.name,e.lesson,e.level].filter(Boolean).join(' · ')
+    : e.type==='Pre-School' ? [e.center,e.name,e.lesson,e.level].filter(Boolean).join(' · ')
+    : e.type==='INT' ? (e.school||'INT')
+    : (e.activity||'OST Activity');
+  document.getElementById('lb-tags').innerHTML = [
+    `<span class="lb-tag">${esc(e.type)}</span>`,
+    e.center ? `<span class="lb-tag">${esc(e.center)}</span>` : '',
+    e.school  ? `<span class="lb-tag">${esc(e.school)}</span>` : '',
+    e.level   ? `<span class="lb-tag">${esc(e.level)}</span>` : '',
+    e.month   ? `<span class="lb-tag">${esc(e.month)} ${esc(String(e.year||''))}</span>` : '',
+  ].filter(Boolean).join('');
+  document.getElementById('lb-comment').textContent = e.comments || '';
   document.getElementById('lightbox').classList.add('open');
   document.body.style.overflow = 'hidden';
 }
 function closeLightbox() {
   document.getElementById('lightbox').classList.remove('open');
-  document.body.style.overflow = '';
+  document.body.style.overflow='';
+  document.getElementById('lb-frame').src = '';
+  document.getElementById('lb-frame').classList.add('hidden');
+  document.getElementById('lb-img').src = '';
+  currentLightboxEntry = null;
+  currentLightboxOpenUrl = '';
 }
 function closeLB(e) { if(e.target===document.getElementById('lightbox')) closeLightbox(); }
-function copyUrl() {
-  const url = document.getElementById('lb-img').src;
-  navigator.clipboard.writeText(url).then(() => alert('URL copied!'));
-}
-function openInNew() { window.open(document.getElementById('lb-img').src, '_blank'); }
-
-function getTitleForEntry(e) {
-  if (e.type==='In-Centre')  return [e.name, e.lesson, e.level].filter(Boolean).join(' · ');
-  if (e.type==='Pre-School') return [e.center, e.name, e.lesson, e.level].filter(Boolean).join(' · ');
-  if (e.type==='INT')        return e.school || 'INT';
-  return e.activity || 'OST Activity';
-}
-function getTagsForEntry(e) {
-  return [
-    `<span class="lb-tag">${esc(e.type)}</span>`,
-    e.center ? `<span class="lb-tag">${esc(e.center)}</span>` : '',
-    e.school  ? `<span class="lb-tag">${esc(e.school)}</span>` : '',
-    e.level   ? `<span class="lb-tag">${esc(e.level)}</span>` : '',
-    e.month   ? `<span class="lb-tag">${esc(e.month)} ${esc(e.year)}</span>` : '',
-  ].filter(Boolean).join('');
+function copyUrl() { navigator.clipboard.writeText(currentLightboxOpenUrl || document.getElementById('lb-img').src).then(()=>alert('URL copied!')); }
+function openInNew() { window.open(currentLightboxOpenUrl || document.getElementById('lb-img').src,'_blank'); }
+function removeEntryFromPage(entryId) {
+  allEntries = allEntries.filter(entry => entry.id !== entryId);
+  applyFilters();
 }
 
-// ═══════════════════════════════════
-// EDIT MODAL
-// ═══════════════════════════════════
+async function deleteEntryFromWebsite(entry, source) {
+  if (!entry?.id) return;
+  const title = getEntryTitle(entry);
+  const photoCount = entry.fileIds?.length || entry.fileUrls?.length || 0;
+  const confirmMsg = `Delete "${title}" from the website?\n\nThis will remove the record from the page, delete the Google Sheet row, and trash ${photoCount} image${photoCount===1?'':'s'} in Google Drive.`;
+  if (!window.confirm(confirmMsg)) return;
+
+  showAlert('browse-alert', 'warn', `Deleting <strong>${esc(title)}</strong>…`);
+
+  try {
+    await postScriptPayload({ action:'delete', id:entry.id });
+    if (source === 'lightbox') closeLightbox();
+    if (source === 'edit') closeEditModal();
+    removeEntryFromPage(entry.id);
+    showAlert('browse-alert', 'ok', `Deleted <strong>${esc(title)}</strong> and removed it from the website.`);
+  } catch (err) {
+    showAlert('browse-alert', 'err', `Could not delete <strong>${esc(title)}</strong>.<br>${esc(err?.message || 'Unknown error')}`);
+  }
+}
+
+function deleteCurrentLightboxEntry() {
+  return deleteEntryFromWebsite(currentLightboxEntry, 'lightbox');
+}
+
+function deleteCurrentEditEntry() {
+  return deleteEntryFromWebsite(currentEntry, 'edit');
+}
+
+// ── EDIT MODAL ────────────────────────────────────────────────
 function openEditModal(idx) {
-  const t = document.getElementById('f-type').value;
-  const c = document.getElementById('f-center').value;
-  const l = document.getElementById('f-level').value;
-  const fl = allEntries.filter(e => {
-    if (state.month && e.month !== state.month) return false;
-    if (t && e.type !== t) return false;
-    if (c && e.center !== c) return false;
-    if (l && e.level !== l) return false;
-    return true;
-  });
-  currentEntry = fl[idx];
+  const list = getFiltered();
+  currentEntry = list[idx];
   if (!currentEntry) return;
   const e = currentEntry;
-  let html = `<div class="form-grid">`;
-
-  if (e.type === 'In-Centre') {
-    html += field('NAME','ed-name','text',e.name)+field('LESSON NUMBER','ed-lesson','text',e.lesson)+selField('LEVEL','ed-level',e.level)+textareaField('COMMENTS','ed-comments',e.comments);
-  } else if (e.type === 'Pre-School') {
-    html += centerSel(e.center)+field('NAME','ed-name','text',e.name)+field('LESSON NUMBER','ed-lesson','text',e.lesson)+selField('LEVEL','ed-level',e.level)+textareaField('COMMENTS','ed-comments',e.comments);
-  } else if (e.type === 'INT') {
-    html += schoolSel(e.school);
-  } else if (e.type === 'OST') {
-    html += field('ACTIVITY NAME','ed-activity','text',e.activity,'full');
+  const selLevels = ['Level 1','Level 2','Level 3','Level 4','Level 5','Level 6','Level 7','Level 8'];
+  const selOpts = arr => arr.map(o=>`<option>${o}</option>`).join('');
+  let html = '<div class="form-grid">';
+  if (e.type==='In-Centre') {
+    html += `<div class="ff"><label class="ff-label">STUDENT NAME</label><input class="ff-input" id="ed-name" value="${esc(e.name||'')}"></div>
+             <div class="ff"><label class="ff-label">LESSON NUMBER</label><input class="ff-input" id="ed-lesson" value="${esc(e.lesson||'')}"></div>
+             <div class="ff"><label class="ff-label">LEVEL</label><select class="ff-select" id="ed-level">${selLevels.map(o=>`<option ${o===e.level?'selected':''}>${o}</option>`).join('')}</select></div>
+             <div class="ff full"><label class="ff-label">COMMENTS</label><textarea class="ff-textarea" id="ed-comments">${esc(e.comments||'')}</textarea></div>`;
+  } else if (e.type==='Pre-School') {
+    const centers=['TPY','BDM','CBP','FPL'];
+    html += `<div class="ff"><label class="ff-label">CENTER</label><select class="ff-select" id="ed-center">${centers.map(o=>`<option ${o===e.center?'selected':''}>${o}</option>`).join('')}</select></div>
+             <div class="ff"><label class="ff-label">STUDENT NAME</label><input class="ff-input" id="ed-name" value="${esc(e.name||'')}"></div>
+             <div class="ff"><label class="ff-label">LESSON NUMBER</label><input class="ff-input" id="ed-lesson" value="${esc(e.lesson||'')}"></div>
+             <div class="ff"><label class="ff-label">LEVEL</label><select class="ff-select" id="ed-level">${selLevels.map(o=>`<option ${o===e.level?'selected':''}>${o}</option>`).join('')}</select></div>
+             <div class="ff full"><label class="ff-label">COMMENTS</label><textarea class="ff-textarea" id="ed-comments">${esc(e.comments||'')}</textarea></div>`;
+  } else if (e.type==='INT') {
+    const schools=['SJII','OWIS@Punggol','OWIS@Nanyang','XCL','AIS'];
+    html += `<div class="ff full"><label class="ff-label">SCHOOL</label><select class="ff-select" id="ed-school">${schools.map(o=>`<option ${o===e.school?'selected':''}>${o}</option>`).join('')}</select></div>`;
+  } else if (e.type==='OST') {
+    html += `<div class="ff full"><label class="ff-label">ACTIVITY NAME</label><input class="ff-input" id="ed-activity" value="${esc(e.activity||'')}"></div>`;
   }
-  html += `</div>`;
+  html += '</div>';
   document.getElementById('edit-modal-body').innerHTML = html;
   document.getElementById('edit-modal').classList.add('open');
   document.body.style.overflow = 'hidden';
 }
 
-function field(label,id,type,val,cls='') {
-  return `<div class="ff ${cls}"><label class="ff-label">${label}</label><input class="ff-input" id="${id}" type="${type}" value="${esc(val||'')}"></div>`;
-}
-function textareaField(label,id,val) {
-  return `<div class="ff full"><label class="ff-label">${label}</label><textarea class="ff-textarea" id="${id}">${esc(val||'')}</textarea></div>`;
-}
-function selField(label,id,val) {
-  const opts = ['Level 1','Level 2','Level 3','Level 4','Level 5','Level 6','Level 7','Level 8'];
-  return `<div class="ff"><label class="ff-label">${label}</label><select class="ff-select" id="${id}">${opts.map(o=>`<option ${o===val?'selected':''}>${o}</option>`).join('')}</select></div>`;
-}
-function centerSel(val) {
-  const opts = ['TPY','BDM','CBP','FPL'];
-  return `<div class="ff"><label class="ff-label">CENTER</label><select class="ff-select" id="ed-center">${opts.map(o=>`<option ${o===val?'selected':''}>${o}</option>`).join('')}</select></div>`;
-}
-function schoolSel(val) {
-  const opts = ['SJII','OWIS@Punggol','OWIS@Nanyang','XCL','AIS'];
-  return `<div class="ff full"><label class="ff-label">SCHOOL</label><select class="ff-select" id="ed-school">${opts.map(o=>`<option ${o===val?'selected':''}>${o}</option>`).join('')}</select></div>`;
-}
-
-function closeEditModal() {
-  document.getElementById('edit-modal').classList.remove('open');
-  document.body.style.overflow = '';
-  currentEntry = null;
-}
+function closeEditModal() { document.getElementById('edit-modal').classList.remove('open'); document.body.style.overflow=''; currentEntry=null; }
 
 async function saveEdit() {
   if (!currentEntry) return;
   const e = currentEntry;
-  const updates = {};
   const g = id => { try { return document.getElementById(id)?.value?.trim()||''; } catch(_){return '';} };
-
-  if (e.type==='In-Centre')  { updates.name=g('ed-name'); updates.lesson=g('ed-lesson'); updates.level=g('ed-level'); updates.comments=g('ed-comments'); }
-  else if (e.type==='Pre-School') { updates.center=g('ed-center'); updates.name=g('ed-name'); updates.lesson=g('ed-lesson'); updates.level=g('ed-level'); updates.comments=g('ed-comments'); }
-  else if (e.type==='INT')   { updates.school=g('ed-school'); }
-  else if (e.type==='OST')   { updates.activity=g('ed-activity'); }
-
-  Object.assign(e, updates);
-  // Update local list
+  if (e.type==='In-Centre')   { e.name=g('ed-name');e.lesson=g('ed-lesson');e.level=g('ed-level');e.comments=g('ed-comments'); }
+  else if (e.type==='Pre-School') { e.center=g('ed-center');e.name=g('ed-name');e.lesson=g('ed-lesson');e.level=g('ed-level');e.comments=g('ed-comments'); }
+  else if (e.type==='INT')    { e.school=g('ed-school'); }
+  else if (e.type==='OST')    { e.activity=g('ed-activity'); }
   const li = allEntries.findIndex(x=>x.id===e.id);
-  if (li>=0) allEntries[li] = e;
-  applyFilters();
+  if (li>=0) allEntries[li]=e;
+  renderGallery(getFiltered());
   closeEditModal();
-
-  // Sync to backend
-  if (SCRIPT_URL) {
-    try {
-      await fetch(SCRIPT_URL, { method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({action:'update', id:e.id, ...updates}) });
-    } catch(_) {}
-  }
-}
-
-// ═══════════════════════════════════
-// SETUP MODAL
-// ═══════════════════════════════════
-function openSetupModal() {
-  document.getElementById('setup-url').value = SCRIPT_URL;
-  document.getElementById('setup-modal').classList.add('open');
-  document.body.style.overflow = 'hidden';
-}
-function closeSetupModal() {
-  document.getElementById('setup-modal').classList.remove('open');
-  document.body.style.overflow = '';
-}
-function saveSetup() {
-  const url = document.getElementById('setup-url').value.trim();
-  if (!url.startsWith('https://script.google.com')) {
-    showAlert('setup-alert','err','Please enter a valid Google Apps Script URL.');
-    return;
-  }
-  SCRIPT_URL = url;
-  localStorage.setItem('fra_url', url);
-  document.getElementById('setup-banner').classList.add('hidden');
-  showAlert('setup-alert','ok','✓ Connected! The website is now linked to your Google backend.');
-  setTimeout(closeSetupModal, 2000);
-}
-async function testSetup() {
-  const url = document.getElementById('setup-url').value.trim();
-  if (!url) { showAlert('setup-alert','err','Enter a URL first.'); return; }
-  showAlert('setup-alert','warn','Testing connection…');
   try {
-    const res = await fetch(`${url}?action=list&year=2026`);
-    const d = await res.json();
-    if (Array.isArray(d)) showAlert('setup-alert','ok','✓ Connection successful! Script is working correctly.');
-    else showAlert('setup-alert','err','Script returned unexpected data. Check your Apps Script code.');
-  } catch(e) {
-    showAlert('setup-alert','err','Connection failed. Check the URL and deployment settings.');
+    await postScriptPayload({action:'update',id:e.id,...e});
+    setTimeout(() => loadEntries(), 800);
+  } catch(err) {
+    showAlert('upload-alert','err', `Saved locally, but Google Sheet update failed: ${esc(err?.message || 'unknown error')}`);
   }
 }
 
-// ═══════════════════════════════════
-// HELPERS
-// ═══════════════════════════════════
-function showAlert(id, type, msg) {
-  const el = document.getElementById(id);
-  el.innerHTML = msg;
-  el.className = `alert ${type}`;
-  setTimeout(() => el.scrollIntoView({behavior:'smooth', block:'nearest'}), 50);
-}
-function esc(s) {
-  return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
-}
-
-// ESC key
 document.addEventListener('keydown', e => {
-  if (e.key==='Escape') {
-    closeLightbox();
-    closeEditModal();
-    closeSetupModal();
-  }
+  if (e.key==='Escape') { closeLightbox(); closeEditModal(); }
 });
-
-// Init check
-document.getElementById('setup-banner')?.classList.add('hidden');
 </script>
 </body>
 </html>
